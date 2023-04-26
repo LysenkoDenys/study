@@ -3299,55 +3299,188 @@
 // diffArray([1, "calf", 3, "piglet"], [7, "filly"]); //should return [1, "calf", 3, "piglet", 7, "filly"].
 
 // ========================================================================================
-// Seek and Destroy
-// You will be provided with an initial array (the first argument in the destroyer function), followed by one or more arguments.
-// Remove all elements from the initial array that are of the same value as these arguments.
+// // Seek and Destroy
+// // You will be provided with an initial array (the first argument in the destroyer function), followed by one or more arguments.
+// // Remove all elements from the initial array that are of the same value as these arguments.
 
-// Note: You have to use the arguments object.
+// // Note: You have to use the arguments object.
 
-function destroyer(arr) {
-  // 1. extract an array from the arguments
-  const arrTargets = [];
-  for (let index = 0; index < arguments.length; index++) {
-    if (typeof arguments[index] === "object") {
-      const arrToSeek = arguments[index];
-      console.log(arrToSeek); //
-    } else {
-      arrTargets.push(arguments[index]);
-    }
-  }
-  console.log(arrTargets); //
-  // 2. return an array without the arguments
+// function destroyer(arr) {
+//   // 1. extract an array and the arguments seperately:
+//   const arrToSeek = [];
+//   const arrTargets = [];
+//   for (let index = 0; index < arguments.length; index++) {
+//     if (typeof arguments[index] === "object") {
+//       arrToSeek.push(...arguments[index]);
+//     } else {
+//       arrTargets.push(arguments[index]);
+//     }
+//   }
+//   // 2. return an array without the arguments
+//   const newArr = [];
+//   for (let j = 0; j < arrToSeek.length; j++) {
+//     let unic1 = arrTargets.includes(arrToSeek[j]);
+//     if (unic1 === false) {
+//       newArr.push(arrToSeek[j]);
+//     }
+//   }
+//   console.log(newArr); //
+//   arr = newArr;
+//   return arr;
+// }
 
-  return arr;
+// destroyer([1, 2, 3, 1, 2, 3], 2, 3); //should return [1, 1].
+// destroyer([1, 2, 3, 5, 1, 2, 3], 2, 3); //should return [1, 5, 1].
+// destroyer([3, 5, 1, 2, 2], 2, 3, 5); //should return [1].
+// destroyer([2, 3, 2, 3], 2, 3); //should return [].
+// destroyer(["tree", "hamburger", 53], "tree", 53); //should return ["hamburger"].
+// destroyer(
+//   [
+//     "possum",
+//     "trollo",
+//     12,
+//     "safari",
+//     "hotdog",
+//     92,
+//     65,
+//     "grandma",
+//     "bugati",
+//     "trojan",
+//     "yacht",
+//   ],
+//   "yacht",
+//   "possum",
+//   "trollo",
+//   "safari",
+//   "hotdog",
+//   "grandma",
+//   "bugati",
+//   "trojan"
+// ); //should return [12,92,65].
+// ========================================================================================
+// // Wherefore art thou
+// // Make a function that looks through an array of objects (first argument) and returns an array of all objects that have matching name and value pairs (second argument).
+// // Each name and value pair of the source object has to be present in the object from the collection if it is to be included in the returned array.
+
+// // For example, if the first argument is [{ first: "Romeo", last: "Montague" }, { first: "Mercutio", last: null }, { first: "Tybalt", last: "Capulet" }], and the second argument is { last: "Capulet" },
+// // then you must return the third object from the array (the first argument), because it contains the name and its value, that was passed on as the second argument.
+
+// // my solution=======================================================================================
+// //!plan:
+// // 1 source to array that consist of 2 or more strings key and value;
+// // 2 every object in collection we turn to string and compare with 1st string of source and 2nd string of source;
+// // 3 if source.length>1:
+// // 4. if they are true --> push it to arrName.
+// function whatIsInAName(collection, source) {
+//   // console.log(collection); // [{ apple: 1, bat: 2 }, { apple: 1 }, { apple: 1, bat: 2, cookie: 2 }]
+//   // console.log(source); // { apple: 1, cookie: 2 }
+//   // console.log(collection.length); //3
+//   const arrName = [];
+//   const arrSour = JSON.stringify(source)
+//     .slice(1, JSON.stringify(source).length - 1)
+//     .split(",");
+//   // loop:
+//   for (let index = 0; index < collection.length; index++) {
+//     for (let j = 0; j < arrSour.length; j++) {
+//       // separator of object to string in source:
+//       const strCollection = JSON.stringify(collection[index]);
+//       // conditions:
+//       const arrUnic = [];
+//       for (let index = 0; index < arrSour.length; index++) {
+//         arrUnic.push(strCollection.includes(arrSour[index]));
+//       }
+//       // make conditions:
+//       const getStringOfCondition = JSON.stringify(arrUnic)
+//         .slice(1, JSON.stringify(arrUnic).length - 1)
+//         .replace(",", " && ");
+//       // make string conditions turn into boolean:
+//       const assignToBoolean = function () {
+//         if (!getStringOfCondition.includes(false)) {
+//           return true;
+//         } else {
+//           return false;
+//         }
+//       };
+//       // check conditions:
+//       if (assignToBoolean() === true) {
+//         if (!arrName.includes(collection[index])) {
+//           arrName.push(collection[index]);
+//         }
+//       }
+//     }
+//   }
+//   // 4. if they are true --> push it to arrName:
+//   console.log(arrName); //
+//   return arrName;
+// }
+//   // suggesed variant=======================================================================================
+// function whatIsInAName(collection, source) {
+//   const souceKeys = Object.keys(source);
+//   console.log(souceKeys); //[ 'last' ]
+//   // filter the collection
+//   return collection.filter((obj) => {
+//     for (let i = 0; i < souceKeys.length; i++) {
+//       if (
+//         !obj.hasOwnProperty(souceKeys[i]) ||
+//         obj[souceKeys[i]] !== source[souceKeys[i]]
+//       ) {
+//         return false;
+//       }
+//     }
+//     return true;
+//   });
+// }
+// // =======================================================================================================
+// whatIsInAName(
+//   [
+//     { first: "Romeo", last: "Montague" },
+//     { first: "Mercutio", last: null },
+//     { first: "Tybalt", last: "Capulet" },
+//   ],
+//   { last: "Capulet" }
+// ); //should return [{ first: "Tybalt", last: "Capulet" }].
+// whatIsInAName([{ apple: 1 }, { apple: 1 }, { apple: 1, bat: 2 }], { apple: 1 }); //should return [{ "apple": 1 }, { "apple": 1 }, { "apple": 1, "bat": 2 }].
+// whatIsInAName(
+//   [{ apple: 1, bat: 2 }, { bat: 2 }, { apple: 1, bat: 2, cookie: 2 }],
+//   { apple: 1, bat: 2 }
+// ); //should return [{ "apple": 1, "bat": 2 }, { "apple": 1, "bat": 2, "cookie": 2 }].
+// whatIsInAName(
+//   [{ apple: 1, bat: 2 }, { apple: 1 }, { apple: 1, bat: 2, cookie: 2 }],
+//   { apple: 1, cookie: 2 }
+// ); //should return [{ "apple": 1, "bat": 2, "cookie": 2 }].
+// whatIsInAName(
+//   [
+//     { apple: 1, bat: 2 },
+//     { apple: 1 },
+//     { apple: 1, bat: 2, cookie: 2 },
+//     { bat: 2 },
+//   ],
+//   { apple: 1, bat: 2 }
+// ); //should return [{ "apple": 1, "bat": 2 }, { "apple": 1, "bat": 2, "cookie":2 }].
+// whatIsInAName([{ a: 1, b: 2, c: 3 }], { a: 1, b: 9999, c: 3 }); //should return []
+// whatIsInAName([{ a: 1, b: 2, c: 3, d: 9999 }], { a: 1, b: 9999, c: 3 }); //should return []
+
+// ========================================================================================
+// Spinal Tap Case
+// Convert a string to spinal case. Spinal case is all-lowercase-words-joined-by-dashes.
+// !Plan:
+// 1. Brake down words with upperCase. Use RegExp.
+// 2. Replace spaces and special symbols to dashes.
+// 3. Make it toLowerCase.
+
+function spinalCase(str) {
+  const splitStr = str
+    .match(/.[^A-Z]*/g)
+    .join("_")
+    .replace(/_|\s/g, "-")
+    .replace(/--/g, "-")
+    .toLowerCase();
+  console.log(splitStr); //
+  return str;
 }
 
-destroyer([1, 2, 3, 1, 2, 3], 2, 3); //should return [1, 1].
-destroyer([1, 2, 3, 5, 1, 2, 3], 2, 3); //should return [1, 5, 1].
-destroyer([3, 5, 1, 2, 2], 2, 3, 5); //should return [1].
-destroyer([2, 3, 2, 3], 2, 3); //should return [].
-destroyer(["tree", "hamburger", 53], "tree", 53); //should return ["hamburger"].
-destroyer(
-  [
-    "possum",
-    "trollo",
-    12,
-    "safari",
-    "hotdog",
-    92,
-    65,
-    "grandma",
-    "bugati",
-    "trojan",
-    "yacht",
-  ],
-  "yacht",
-  "possum",
-  "trollo",
-  "safari",
-  "hotdog",
-  "grandma",
-  "bugati",
-  "trojan"
-); //should return [12,92,65].
-// ========================================================================================
+spinalCase("This Is Spinal Tap"); //should return the string this-is-spinal-tap.
+spinalCase("thisIsSpinalTap"); //should return the string this-is-spinal-tap.
+spinalCase("The_Andy_Griffith_Show"); //should return the string the-andy-griffith-show.
+spinalCase("Teletubbies say Eh-oh"); //should return the string teletubbies-say-eh-oh.
+spinalCase("AllThe-small Things"); //should return the string all-the-small-things.
