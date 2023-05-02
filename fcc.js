@@ -3394,15 +3394,11 @@
 //         .slice(1, JSON.stringify(arrUnic).length - 1)
 //         .replace(",", " && ");
 //       // make string conditions turn into boolean:
-//       const assignToBoolean = function () {
-//         if (!getStringOfCondition.includes(false)) {
-//           return true;
-//         } else {
-//           return false;
-//         }
-//       };
+//       const assignToBoolean = !getStringOfCondition.includes(false)
+//         ? true
+//         : false;
 //       // check conditions:
-//       if (assignToBoolean() === true) {
+//       if (assignToBoolean === true) {
 //         if (!arrName.includes(collection[index])) {
 //           arrName.push(collection[index]);
 //         }
@@ -3413,7 +3409,7 @@
 //   console.log(arrName); //
 //   return arrName;
 // }
-//   // suggesed variant=======================================================================================
+// // suggesed variant=======================================================================================
 // function whatIsInAName(collection, source) {
 //   const souceKeys = Object.keys(source);
 //   console.log(souceKeys); //[ 'last' ]
@@ -3461,26 +3457,488 @@
 // whatIsInAName([{ a: 1, b: 2, c: 3, d: 9999 }], { a: 1, b: 9999, c: 3 }); //should return []
 
 // ========================================================================================
-// Spinal Tap Case
-// Convert a string to spinal case. Spinal case is all-lowercase-words-joined-by-dashes.
-// !Plan:
-// 1. Brake down words with upperCase. Use RegExp.
-// 2. Replace spaces and special symbols to dashes.
-// 3. Make it toLowerCase.
+// // Spinal Tap Case
+// // Convert a string to spinal case. Spinal case is all-lowercase-words-joined-by-dashes.
+// // !Plan:
+// // 1. Brake down words with upperCase. Use RegExp.
+// // 2. Replace spaces and special symbols to dashes.
+// // 3. Make it toLowerCase.
 
-function spinalCase(str) {
-  const splitStr = str
-    .match(/.[^A-Z]*/g)
-    .join("_")
-    .replace(/_|\s/g, "-")
-    .replace(/--/g, "-")
-    .toLowerCase();
-  console.log(splitStr); //
-  return str;
+// function spinalCase(str) {
+//   const splitStr = str
+//     .match(/.[^A-Z]*/g)
+//     .join("_")
+//     .replace(/_|\s/g, "-")
+//     .replace(/--/g, "-")
+//     .toLowerCase();
+//   console.log(splitStr); //
+//   return splitStr;
+// }
+// // suggesed variant================================
+// function spinalCase(str) {
+//   return str
+//     .split(/\s|_|(?=[A-Z])/)
+//     .join("-")
+//     .toLowerCase();
+// }
+// // suggesed variant================================
+
+// spinalCase("This Is Spinal Tap"); //should return the string this-is-spinal-tap.
+// spinalCase("thisIsSpinalTap"); //should return the string this-is-spinal-tap.
+// spinalCase("The_Andy_Griffith_Show"); //should return the string the-andy-griffith-show.
+// spinalCase("Teletubbies say Eh-oh"); //should return the string teletubbies-say-eh-oh.
+// spinalCase("AllThe-small Things"); //should return the string all-the-small-things.
+
+// ========================================================================================
+// Pig Latin
+// Pig Latin is a way of altering English Words.
+// The rules are as follows:
+// - If a word begins with a consonant, take the first consonant or consonant cluster, move it to the end of the word, and add ay to it.
+// - If a word begins with a vowel, just add way at the end.
+// Translate the provided string to Pig Latin.
+// Input strings are guaranteed to be English words in all lowercase.
+
+// !Plan:
+// 1. Define words with consonant and vowel. Use RegExp.
+// 2. Replace characters to end + add characters.
+// function translatePigLatin(str) {
+//   // *1.1 Define words with consonant 1 or 2 and following vowel
+//   if (str.match(/^[b-df-hjk-np-tv-z][aeiou]|^[b-df-hjk-np-tv-z]{2}[aeiou]/)) {
+//     console.log(`case1`); //
+//     //1.1.1 one character:
+//     if (str.match(/^[b-df-hjk-np-tv-z][aeiou]/)) {
+//       str = str.slice(1) + str.slice(0, 1) + "ay";
+//       console.log(str); //
+//       return str;
+//     }
+//     //1.1.2 two characters:
+//     if (str.match(/^[b-df-hjk-np-tv-z]{2}[aeiou]/)) {
+//       str = str.slice(2) + str.slice(0, 2) + "ay";
+//       console.log(str); //
+//       return str;
+//     }
+//   }
+//   // *1.2 Define words with start from vowel:
+//   if (str.match(/^[aeiou]/)) {
+//     console.log(`case2 ${str + "way"}`); //
+//     return str + "way";
+//   }
+//   // 1.3 Define words with 3 or more consonant
+//   if (str.match(/^[b-df-hjk-np-tv-z]{3,}[aeiou]/)) {
+//     console.log(`case3`); //
+//     for (let index = 0; index < str.length; index++) {
+//       if (str[index].match(/[aeiou]/)) {
+//         console.log(str[index]); //
+//         str = str.slice(index) + str.slice(0, index) + "ay";
+//         console.log(str); //
+//         return str;
+//       }
+//     }
+//   }
+//   // *1.4 Define words with whole word are consonant:
+//   let regexp = new RegExp(`^[b-df-hjk-np-tv-z]{${str.length}}`); // special syntax to add a variable to RegEx
+//   if (str.match(regexp)) {
+//     console.log(`case4 ${str + "ay"}`); //
+//     return str + "ay";
+//   }
+//   return str;
+// }
+
+// // suggesed variant================================
+
+// function translatePigLatin(str) {
+//   let consonantRegex = /^[^aeiou]+/;
+//   let myConsonants = str.match(consonantRegex);
+//   return myConsonants !== null
+//     ? str.replace(consonantRegex, "").concat(myConsonants).concat("ay")
+//     : str.concat("way");
+// }
+
+// // Code Explanation
+// // start at beginning and get longest match of everything not a vowel (consonants)
+// // if regex pattern found, it saves the match; else, it returns null
+// // if regex pattern found (starts with consonants), it deletes match, adds the match to the end, and adds “ay” to the end
+// // if regex pattern not found (starts with vowels), it just adds “way” to the ending
+
+// // suggesed variant================================
+
+// function translatePigLatin(str) {
+//   return str
+//     .replace(/^[aeiou]\w*/, "$&way")
+//     .replace(/(^[^aeiou]+)(\w*)/, "$2$1ay");
+// }
+
+// // Code Explanation
+// // Use replace() on the string, using a regular expression to check if the first letter is a consonant and adding way at the end in this case.
+// // If the first letter is a consonant nothing will happen at this point.
+// // Use replace() again to check for consonants at the beginning of the word and to move it or them to the end of the word and add ay at the end.
+
+// // suggesed variant================================
+
+// translatePigLatin("consonant"); //should return the string onsonantcay.
+// translatePigLatin("california"); //should return the string aliforniacay.
+// translatePigLatin("paragraphs"); //should return the string aragraphspay.
+// translatePigLatin("glove"); //should return the string oveglay.
+// translatePigLatin("algorithm"); //should return the string algorithmway.
+// translatePigLatin("eight"); //should return the string eightway.
+// translatePigLatin("schwartz"); //should return the string artzschway. Should handle words where the first vowel comes in the middle of the word.
+// translatePigLatin("rhythm"); //should return the string rhythmay. Should handle words without vowels.
+
+// ========================================================================================
+// // Search and Replace
+// // Perform a search and replace on the sentence using the arguments provided and return the new sentence.
+// // First argument is the sentence to perform the search and replace on.
+// // Second argument is the word that you will be replacing (before).
+// // Third argument is what you will be replacing the second argument with (after).
+// // Note: Preserve the case of the first character in the original word when you are replacing it.
+// // For example if you mean to replace the word Book with the word dog, it should be replaced as Dog
+
+// function myReplace(str, before, after) {
+//   return before.match(/^[A-Z]/)
+//     ? str.replace(before, after.charAt().toUpperCase().concat(after.slice(1)))
+//     : str.replace(before, after.toLowerCase());
+// }
+
+// myReplace("A quick brown fox jumped over the lazy dog", "jumped", "leaped"); //should return the string A quick brown fox leaped over the lazy dog.
+// myReplace("Let us go to the store", "store", "mall"); //should return the string Let us go to the mall.
+// myReplace("He is Sleeping on the couch", "Sleeping", "sitting"); //should return the string He is Sitting on the couch.
+// myReplace("I think we should look up there", "up", "Down"); //should return the string I think we should look down there.
+// myReplace("This has a spellngi error", "spellngi", "spelling"); //should return the string This has a spelling error.
+// myReplace("His name is Tom", "Tom", "john"); //should return the string His name is John.
+// myReplace("Let us get back to more Coding", "Coding", "algorithms"); //should return the string Let us get back to more Algorithms.
+
+// ========================================================================================
+// // DNA Pairing
+// // Pairs of DNA strands consist of nucleobase pairs.
+// // Base pairs are represented by the characters AT and CG, which form building blocks of the DNA double helix.
+
+// // The DNA strand is missing the pairing element.
+// // Write a function to match the missing base pairs for the provided DNA strand.
+// // For each character in the provided string, find the base pair character.
+// // Return the results as a 2d array.
+
+// // For example, for the input GCG, return [["G", "C"], ["C","G"], ["G", "C"]]
+
+// // The character and its pair are paired up in an array, and all the arrays are grouped into one encapsulating array.
+
+// //Problem Explanation
+// // You will get a DNA strand sequence and you need to get the pair and return it as a 2D array of the base pairs.
+// // Keep in mind that the provided strand should be first always.
+
+// // Another way to interpret the problem: there are four potential characters that exist in DNA: “A”, “T”, “G”, and “C”.
+// // “A” and “T” are always paired together, and “G” and “C” are always paired together.
+// // This problem presents you with an input, e.g. “ATCGA”.
+// // Each of those five characters are missing their pairs.
+// // E.g. the first character “A” needs to be paired with “T” to give the array element [“A”, “T”].
+// // The second character “T” needs to be paired with “A” to give the array element [“T”, “A”].
+// // The number of elements in the final output equals the number of characters in the input.
+
+// // This problem does not involve rearranging the input into different combinations or permutations.
+
+// function pairElement(str) {
+//   const arrStr = [];
+//   for (let index = 0; index < str.length; index++) {
+//     switch (str[index]) {
+//       case "C":
+//         arrStr.push([str[index], "G"]);
+//         break;
+//       case "G":
+//         arrStr.push([str[index], "C"]);
+//         break;
+//       case "A":
+//         arrStr.push([str[index], "T"]);
+//         break;
+//       case "T":
+//         arrStr.push([str[index], "A"]);
+//         break;
+//     }
+//   }
+//   console.log(arrStr); //
+//   return arrStr;
+// }
+
+// // suggesed variant================================
+// function pairElement(str) {
+//   // create object for pair lookup
+//   const pairs = {
+//     A: "T",
+//     T: "A",
+//     C: "G",
+//     G: "C",
+//   };
+
+//   // map character to array of character and matching pair
+//   return str.split("").map((x) => [x, pairs[x]]);
+// }
+// // Code Explanation
+// // First define an object with all pair possibilities, this allows us to easily find by key or value.
+// // Split str into a characters array so we can use each letter to find its pair.
+// // Use the map function to map each character in the array of individual characters to an array
+// // with the character and its matching pair, creating a 2D array.
+// // suggesed variant================================
+
+// pairElement("GCG"); //should return [["G", "C"], ["C","G"], ["G", "C"]]
+// pairElement("ATCGA"); //should return [["A","T"],["T","A"],["C","G"],["G","C"],["A","T"]].
+// pairElement("TTGAG"); //should return [["T","A"],["T","A"],["G","C"],["A","T"],["G","C"]].
+// pairElement("CTCTA"); //should return [["C","G"],["T","A"],["C","G"],["T","A"],["A","T"]].
+
+// ========================================================================================
+// //Missing letters
+// // Find the missing letter in the passed letter range and return it.
+
+// // If all letters are present in the range, return undefined.
+
+// // !Plan:
+// // 1. Create an array with ABC.
+// // 2. Find first character and lst character.
+// // 3. Find ubound of array (index of last character).
+// // 4. Create the array to compare with.
+// // 5. Compare 2 arrays.
+// // 6. Return the missing index.
+
+// function fearNotLetter(str) {
+//   const arrABC = "abcdefghijklmnopqrstuvwxyz".split("");
+//   const firstChar = str.split("").shift();
+//   const firstIndex = arrABC.indexOf(firstChar);
+
+//   const lastChar = str.split("").pop();
+//   const arrComp = [];
+//   let lenthComp = 0;
+//   // console.log(arrABC); //
+//   // console.log(firstChar); // s
+//   // console.log(lastChar); // e
+//   for (let index = 0; index < arrABC.length; index++) {
+//     if (arrABC[index] === lastChar) {
+//       lenthComp = index;
+//       // console.log(lenthComp); //
+//     }
+//   }
+//   for (let index = firstIndex; index <= lenthComp; index++) {
+//     arrComp.push(arrABC[index]);
+//   }
+//   // console.log(arrComp); //
+//   // console.log(str.split("")); //
+
+//   const missedChar = str
+//     .split("")
+//     .map((elem, index) => (elem.includes(arrComp[index]) ? "" : arrComp[index]))
+//     .toString()
+//     .replace(/,/g, "")[0];
+
+//   // console.log(missedChar); //
+//   return missedChar;
+// }
+
+// // suggesed variant================================
+// function fearNotLetter(str) {
+//   for (let i = 1; i < str.length; ++i) {
+//     if (str.charCodeAt(i) - str.charCodeAt(i - 1) > 1) {
+//       return String.fromCharCode(str.charCodeAt(i - 1) + 1);
+//     }
+//   }
+// }
+// // Code Explanation
+// // Loop over the string
+// // Check if the difference in char codes between adjacent characters in the string is more than 1 (check ASCII table)
+// // Return the missing character ( +1 from where the gap was detected)
+// // suggesed variant================================
+
+// fearNotLetter("abce"); //should return the string d.
+// fearNotLetter("abcdefghjklmno"); //should return the string i.
+// fearNotLetter("stvwx"); //should return the string u.
+// fearNotLetter("bcdf"); //should return the string e.
+// fearNotLetter("abcdefghijklmnopqrstuvwxyz"); //should return undefined.
+
+// ========================================================================================
+// // Sorted Union
+// // Write a function that takes two or more arrays and returns a new array of unique values in the order of the original provided arrays.
+// // In other words, all values present from all arrays should be included in their original order, but with no duplicates in the final array.
+// // The unique numbers should be sorted by their original order, but the final array should not be sorted in numerical order.
+// // Check the assertion tests for examples.
+
+// // !Plan:
+// // 1. Create total array.
+// // 2. Find unique values by filter.
+
+// function uniteUnique(...arr) {
+//   const arrTot = arr
+//     .toString()
+//     .split(",")
+//     .map(function (element) {
+//       return Number(element);
+//     }); // convert all arguments (arrays) to a string, make it an array, convert elements to numbers.
+//   const unique = arrTot.filter(
+//     (value, index, array) => array.indexOf(value) === index
+//   ); // filter unic elements.
+//   arr = unique; //
+//   console.log(arr); //
+//   return arr;
+// }
+
+// // suggesed variant================================
+// function uniteUnique(arr) {
+//   const args = [...arguments];
+//   const result = [];
+//   for (let i = 0; i < args.length; i++) {
+//     for (let j = 0; j < args[i].length; j++) {
+//       if (!result.includes(args[i][j])) {
+//         result.push(args[i][j]);
+//       }
+//     }
+//   }
+//   return result;
+// }
+
+// uniteUnique([1, 3, 2], [5, 2, 1, 4], [2, 1]);
+// // suggesed variant================================
+
+// uniteUnique([1, 3, 2], [5, 2, 1, 4], [2, 1]); //should return [1, 3, 2, 5, 4].
+// uniteUnique([1, 2, 3], [5, 2, 1]); //should return [1, 2, 3, 5].
+// uniteUnique([1, 2, 3], [5, 2, 1, 4], [2, 1], [6, 7, 8]); //should return [1, 2, 3, 5, 4, 6, 7, 8].
+// uniteUnique([1, 3, 2], [5, 4], [5, 6]); //should return [1, 3, 2, 5, 4, 6].
+// uniteUnique([1, 3, 2, 3], [5, 2, 1, 4], [2, 1]); //should return [1, 3, 2, 5, 4].
+
+// ========================================================================================
+// // Convert HTML Entities
+// // Convert the characters &, <, >, " (double quote), and ' (apostrophe), in a string to their corresponding HTML entities.
+
+// function convertHTML(str) {
+//   const arrToFind = ["&", "<", ">", '"', "'"];
+//   const arrToReplace = ["&amp;", "&lt;", "&gt;", "&quot;", "&apos;"];
+
+//   for (let index = 0; index < arrToFind.length; index++) {
+//     str = str.replaceAll(arrToFind[index], arrToReplace[index]);
+//   }
+//   return str;
+// }
+
+// // suggesed variant================================
+// function convertHTML(str) {
+//   var characters = [/&/g, /</g, />/g, /\"/g, /\'/g];
+//   var entities = ["&amp;", "&lt;", "&gt;", "&quot;", "&apos;"];
+
+//   for (var i = 0; i < characters.length; i++) {
+//     str = str.replace(characters[i], entities[i]);
+//   }
+//   return str;
+// }
+
+// function convertHTML(str) {
+//   // Split by character to avoid problems.
+
+//   var temp = str.split("");
+
+//   // Since we are only checking for a few HTML elements, use a switch
+
+//   for (var i = 0; i < temp.length; i++) {
+//     switch (temp[i]) {
+//       case "<":
+//         temp[i] = "&lt;";
+//         break;
+//       case "&":
+//         temp[i] = "&amp;";
+//         break;
+//       case ">":
+//         temp[i] = "&gt;";
+//         break;
+//       case '"':
+//         temp[i] = "&quot;";
+//         break;
+//       case "'":
+//         temp[i] = "&apos;";
+//         break;
+//     }
+//   }
+
+//   temp = temp.join("");
+//   return temp;
+// }
+// // suggesed variant================================
+// convertHTML("Hamburgers < Pizza < Tacos"); //should return the string Hamburgers &lt; Pizza &lt; Tacos.
+// convertHTML("Sixty > twelve"); //should return the string Sixty &gt; twelve.
+// convertHTML("Dolce & Gabbana"); //should return the string Dolce &amp; Gabbana.
+// convertHTML('Stuff in "quotation marks"'); //should return the string Stuff in &quot;quotation marks&quot;.
+// convertHTML("Schindler's List"); //should return the string Schindler&apos;s List.
+// convertHTML("<>"); //should return the string &lt;&gt;.
+// convertHTML("abc"); //should return the string abc.
+
+// ========================================================================================
+// // Sum All Odd Fibonacci Numbers
+// // Given a positive integer num, return the sum of all odd Fibonacci numbers that are less than or equal to num.
+
+// // The first two numbers in the Fibonacci sequence are 0 and 1.
+// // Every additional number in the sequence is the sum of the two previous numbers.
+// // The first seven numbers of the Fibonacci sequence are 0, 1, 1, 2, 3, 5 and 8.
+
+// // For example, sumFibs(10) should return 10 because all odd Fibonacci numbers less than or equal to 10 are 1, 1, 3, and 5.
+
+// function sumFibs(num) {
+//   const arrFib = [0, 1];
+//   for (let index = 0; index < num; index++) {
+//     const element = arrFib[index] + arrFib[index + 1];
+//     arrFib.push(element);
+//   }
+//   const newArr = arrFib.filter(function (element) {
+//     const result = element % 2 === 1 && element <= num;
+//     return result;
+//   });
+//   const result = newArr.reduce(function (previous, current) {
+//     return previous + current;
+//   });
+//   console.log(result);
+//   return result;
+// }
+
+// // suggesed variant================================
+// function sumFibs(num) {
+//   let prevNumber = 0;
+//   let currNumber = 1;
+//   let result = 0;
+//   while (currNumber <= num) {
+//     if (currNumber % 2 !== 0) {
+//       result += currNumber;
+//     }
+//     currNumber += prevNumber;
+//     prevNumber = currNumber - prevNumber;
+//   }
+
+//   return result;
+// }
+
+// // Code Explanation
+// // Create a variable to keep record of the current and previous numbers along with the result that will be returned.
+// // Use a while loop to make sure we do not go over the number given as parameter.
+// // We use the modulo operand to check if the current number is odd or even. If it is odd, add it to the result.
+// // Complete the Fibonacci circle by rotating getting the next number and swapping values after.
+// // Return the result.
+// // suggesed variant================================
+
+// sumFibs(1); //should return a number.
+// sumFibs(1000); //should return 1785.
+// sumFibs(4000000); //should return 4613732.
+// sumFibs(4); //should return 5.
+// sumFibs(75024); //should return 60696.
+// sumFibs(75025); //should return 135721.
+// ========================================================================================
+// Sum All Primes
+// A prime number is a whole number greater than 1 with exactly two divisors: 1 and itself.
+// For example, 2 is a prime number because it is only divisible by 1 and 2.
+// In contrast, 4 is not prime since it is divisible by 1, 2 and 4.
+
+// Rewrite sumPrimes so it returns the sum of all prime numbers that are less than or equal to num.
+function sumPrimes(num) {
+  return num;
 }
 
-spinalCase("This Is Spinal Tap"); //should return the string this-is-spinal-tap.
-spinalCase("thisIsSpinalTap"); //should return the string this-is-spinal-tap.
-spinalCase("The_Andy_Griffith_Show"); //should return the string the-andy-griffith-show.
-spinalCase("Teletubbies say Eh-oh"); //should return the string teletubbies-say-eh-oh.
-spinalCase("AllThe-small Things"); //should return the string all-the-small-things.
+sumPrimes(10);
+
+// suggesed variant================================
+// suggesed variant================================
+sumPrimes(10); //should return a number.
+sumPrimes(10); //should return 17.
+sumPrimes(977); //should return 73156.
+// ========================================================================================
+
+// suggesed variant================================
+// suggesed variant================================
+// ========================================================================================
