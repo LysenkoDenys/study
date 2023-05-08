@@ -3919,26 +3919,142 @@
 // sumFibs(4); //should return 5.
 // sumFibs(75024); //should return 60696.
 // sumFibs(75025); //should return 135721.
-// ========================================================================================
-// Sum All Primes
-// A prime number is a whole number greater than 1 with exactly two divisors: 1 and itself.
-// For example, 2 is a prime number because it is only divisible by 1 and 2.
-// In contrast, 4 is not prime since it is divisible by 1, 2 and 4.
 
-// Rewrite sumPrimes so it returns the sum of all prime numbers that are less than or equal to num.
-function sumPrimes(num) {
-  return num;
+// ========================================================================================
+// // Sum All Primes
+// // A prime number is a whole number greater than 1 with exactly two divisors: 1 and itself.
+// // For example, 2 is a prime number because it is only divisible by 1 and 2.
+// // In contrast, 4 is not prime since it is divisible by 1, 2 and 4.
+
+// // Rewrite sumPrimes so it returns the sum of all prime numbers that are less than or equal to num.
+// function sumPrimes(num) {
+//   const arr = [];
+//   for (let i = 0; i <= num; i++) {
+//     if (isPrime(i)) arr.push(i);
+//   }
+//   function isPrime(num) {
+//     if (num < 2) return false;
+//     for (let i = 2; i < num; i++) {
+//       if (num % i === 0) return false;
+//     }
+//     return true;
+//   }
+//   // ======================================================
+//   const result = arr.reduce(function (previous, current) {
+//     return previous + current;
+//   }, 0);
+//   console.log(arr); //
+//   console.log(result); //
+//   return result;
+// }
+
+// sumPrimes(10); //should return 17.
+// sumPrimes(977); //should return 73156.
+
+// ========================================================================================
+// // Smallest Common Multiple
+// // Find the smallest common multiple of the provided parameters that can be evenly divided by both, as well as by all sequential numbers in the range between these parameters.
+// // The range will be an array of two numbers that will not necessarily be in numerical order.
+// // For example, if given 1 and 3, find the smallest common multiple of both 1 and 3 that is also evenly divisible by all numbers between 1 and 3.
+// // The answer here would be 6.
+
+// // An example would be the numbers 3 and 4.
+// // The multiples of 3 are 3, 6, 9, 12, 15, 18, ... and the multiples of 4 are 4, 8, 12, 16, 20, ....
+// // The first smallest number we run into in both lists is 12 so this is the smallest common multiple between 3 and 4.
+// // An faster approach is to check all multiples of 4 to see if they are also multiples of 3, by checking the remainder when we divide the multiple of 4 by 3.
+
+// function smallestCommons(arr) {
+//   const arrNew = [];
+//   const min = Math.min(...arr);
+//   const max = Math.max(...arr);
+//   //1. get the array of numbers.
+//   for (let i = max; i >= min; i--) {
+//     arrNew.push(i);
+//   }
+//   //2. multiply items of array to get the Low bound:
+//   const lowBound = arrNew.reduce(function (prev, curr) {
+//     return prev * curr;
+//   }, 1);
+//   //3. create and find arrays with all items as in arrNew (check if i divide of item ):
+//   for (let i = max; i <= lowBound; i++) {
+//     const arrTemp = [];
+//     for (let j = min; j <= max; j++) {
+//       if (i % j === 0) {
+//         arrTemp.push(j);
+//       }
+//     }
+//     //4. compare the length of arrays:
+//     if (arrTemp.length === arrNew.length) {
+//       return console.log(i); //
+//     }
+//   }
+//   return i;
+// }
+
+// // suggesed variant================================
+// function smallestCommons(arr) {
+//   const min = Math.min(arr[0], arr[1]),
+//     max = Math.max(arr[0], arr[1]),
+//     range = [...Array(max + 1).keys()].slice(min);
+
+//   return range.reduce(function (a, b) {
+//     for (let i = a; i <= a * b; i += a) {
+//       if (i % b === 0) return i;
+//     }
+//   });
+// }
+// // suggesed variant================================
+
+// smallestCommons([1, 5]); //should return 60.
+// smallestCommons([5, 1]); //should return 60.
+// smallestCommons([2, 10]); //should return 2520.
+// smallestCommons([1, 13]); //should return 360360.
+// smallestCommons([23, 18]); //should return 6056820.
+
+// ========================================================================================
+// Drop it
+// Given the array arr, iterate through and remove each element starting from the first element (the 0 index)
+// until the function func returns true when the iterated element is passed through it.
+
+// Then return the rest of the array once the condition is satisfied, otherwise, arr should be returned as an empty array.
+
+function dropElements(arr, func) {
+  const arrNew = [];
+  for (let index = 0; index < arr.length; index++) {
+    const n = arr[index];
+    if (func(n) === true) {
+      arr.shift();
+    }
+  }
+  // const result = arr.filter(func);
+  console.log(arr); //
+  return arr;
 }
 
-sumPrimes(10);
+dropElements([1, 2, 3], function (n) {
+  return n < 3; //should return [1, 2].
+});
 
 // suggesed variant================================
 // suggesed variant================================
-sumPrimes(10); //should return a number.
-sumPrimes(10); //should return 17.
-sumPrimes(977); //should return 73156.
-// ========================================================================================
 
-// suggesed variant================================
-// suggesed variant================================
+dropElements([1, 2, 3, 4], function (n) {
+  return n >= 3;
+}); //should return [3, 4].
+dropElements([0, 1, 0, 1], function (n) {
+  return n === 1;
+}); //should return [1, 0, 1].
+dropElements([1, 2, 3], function (n) {
+  return n > 0;
+}); //should return [1, 2, 3].
+dropElements([1, 2, 3, 4], function (n) {
+  return n > 5;
+}); //should return [].
+dropElements([1, 2, 3, 7, 4], function (n) {
+  return n > 3;
+}); //should return [7, 4].
+dropElements([1, 2, 3, 9, 2], function (n) {
+  return n > 2;
+}); //should return [3, 9, 2].
+
 // ========================================================================================
