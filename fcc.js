@@ -4012,49 +4012,88 @@
 // smallestCommons([23, 18]); //should return 6056820.
 
 // ========================================================================================
-// Drop it
-// Given the array arr, iterate through and remove each element starting from the first element (the 0 index)
-// until the function func returns true when the iterated element is passed through it.
+// // Drop it
+// // Given the array arr, iterate through and remove each element starting from the first element (the 0 index)
+// // until the function func returns true when the iterated element is passed through it.
 
-// Then return the rest of the array once the condition is satisfied, otherwise, arr should be returned as an empty array.
+// // Then return the rest of the array once the condition is satisfied, otherwise, arr should be returned as an empty array.
 
-function dropElements(arr, func) {
-  const arrNew = [];
-  for (let index = 0; index < arr.length; index++) {
-    const n = arr[index];
-    if (func(n) === true) {
-      arr.shift();
-    }
-  }
-  // const result = arr.filter(func);
-  console.log(arr); //
+// function dropElements(arr, func) {
+//   for (let i = 0; i < arr.length; i++) {
+//     if (func(arr[i]) === true) {
+//       console.log(arr); //
+//       return arr;
+//     } else {
+//       arr.shift();
+//       i--;
+//     }
+//   }
+//   console.log(arr); //
+//   return arr;
+// }
+
+// dropElements([1, 2, 3], function (n) {
+//   return n < 3; //should return [1, 2, 3].
+// });
+
+// // suggesed variant================================
+// function dropElements(arr, func) {
+//   while (arr.length > 0 && !func(arr[0])) {
+//     arr.shift();
+//   }
+//   return arr;
+// }
+// // Use a while loop with Array.prototype.shift() to continue checking
+// // and dropping the first element of the array until the function returns true.
+// // It also makes sure the array is not empty first to avoid infinite loops.
+// // Return the filtered array.
+
+// // suggesed variant================================
+// function dropElements(arr, func) {
+//   let sliceIndex = arr.findIndex(func);
+//   return arr.slice(sliceIndex >= 0 ? sliceIndex : arr.length);
+// }
+
+// // Use ES6 findIndex() function to find the index of the element that passes the condition
+// // Slice the array from the found index until the end
+// // There is one edge case! if the condition is not met against any of the elements ‘findIndex’ will return -1 which messes up the input to slice().
+// // In this case use a simple conditional operator to return false instead of -1.
+// // And the ternary operator returns the found index of required elements when the condition is true, and the length of the array otherwise so that the return value is an empty array as is instructed.
+
+// // suggesed variant================================
+// function dropElements(arr, func) {
+//   return arr.length > 0 && !func(arr[0])
+//     ? dropElements(arr.slice(1), func)
+//     : arr;
+// }
+// // Use recursion to solve the challenge
+
+// // suggesed variant================================
+
+// dropElements([1, 2, 3, 4], function (n) {
+//   return n >= 3;
+// }); //should return [3, 4].
+// dropElements([0, 1, 0, 1], function (n) {
+//   return n === 1;
+// }); //should return [1, 0, 1].
+// dropElements([1, 2, 3], function (n) {
+//   return n > 0;
+// }); //should return [1, 2, 3].
+// dropElements([1, 2, 3, 4], function (n) {
+//   return n > 5;
+// }); //should return [].
+// dropElements([1, 2, 3, 7, 4], function (n) {
+//   return n > 3;
+// }); //should return [7, 4].
+// dropElements([1, 2, 3, 9, 2], function (n) {
+//   return n > 2;
+// }); //should return [3, 9, 2].
+
+// ========================================================================================
+// Steamroller
+// Flatten a nested array. You must account for varying levels of nesting.
+function steamrollArray(arr) {
   return arr;
 }
 
-dropElements([1, 2, 3], function (n) {
-  return n < 3; //should return [1, 2].
-});
-
-// suggesed variant================================
-// suggesed variant================================
-
-dropElements([1, 2, 3, 4], function (n) {
-  return n >= 3;
-}); //should return [3, 4].
-dropElements([0, 1, 0, 1], function (n) {
-  return n === 1;
-}); //should return [1, 0, 1].
-dropElements([1, 2, 3], function (n) {
-  return n > 0;
-}); //should return [1, 2, 3].
-dropElements([1, 2, 3, 4], function (n) {
-  return n > 5;
-}); //should return [].
-dropElements([1, 2, 3, 7, 4], function (n) {
-  return n > 3;
-}); //should return [7, 4].
-dropElements([1, 2, 3, 9, 2], function (n) {
-  return n > 2;
-}); //should return [3, 9, 2].
-
-// ========================================================================================
+steamrollArray([1, [2], [3, [[4]]]]);
