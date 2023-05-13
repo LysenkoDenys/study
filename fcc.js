@@ -4090,10 +4090,192 @@
 // }); //should return [3, 9, 2].
 
 // ========================================================================================
-// Steamroller
-// Flatten a nested array. You must account for varying levels of nesting.
-function steamrollArray(arr) {
-  return arr;
+// // Steamroller
+// // Flatten a nested array. You must account for varying levels of nesting.
+// function steamrollArray(arr) {
+//   const arrNew = [];
+//   arr.forEach((item) => {
+//     if (Array.isArray(item)) {
+//       arrNew.push(...steamrollArray(item));
+//     } else {
+//       arrNew.push(item);
+//     }
+//   });
+//   console.log(arrNew); //
+//   return arrNew;
+// }
+
+// // suggesed variant================================
+// function steamrollArray(arr) {
+//   return arr
+//     .toString()
+//     .replace(",,", ",") // "1,2,,3" => "1,2,3"
+//     .split(",") // ['1','2','3']
+//     .map(function (v) {
+//       if (v == "[object Object]") {
+//         // bring back empty objects
+//         return {};
+//       } else if (isNaN(v)) {
+//         // if not a number (string)
+//         return v;
+//       } else {
+//         return parseInt(v); // if a number in a string, convert it
+//       }
+//     });
+// }
+// // First we turn the array to a string, which will give us a string of numbers separated by a comma, double comma if there was an empty array and literal object text if there was an object, which we can fix later in our if statement.
+// // We replace the double comma with one, then split it back into an array.
+// // map through the array and fix object values and convert string numbers to regular numbers.
+
+// // suggesed variant================================
+// function steamrollArray(arr) {
+//   const flattenedArray = [];
+//   // Loop over array contents
+//   for (let i = 0; i < arr.length; i++) {
+//     if (Array.isArray(arr[i])) {
+//       // Recursively flatten entries that are arrays
+//       //  and push into the flattenedArray
+//       flattenedArray.push(...steamrollArray(arr[i]));
+//     } else {
+//       // Copy contents that are not arrays
+//       flattenedArray.push(arr[i]);
+//     }
+//   }
+//   return flattenedArray;
+// }
+// // Create a new variable to keep flattened arrays.
+// // Loop over the elements of the array
+// // If the element is an array then call the function again with to flatten the subarray and push the contents of the flattened subarray into the flattened array.
+// // If the element is not an array, then push that non-array element to the flattened array.
+// // Return the flattened array.
+
+// // suggesed variant================================
+
+// steamrollArray([[["a"]], [["b"]]]); //should return ["a", "b"].
+// steamrollArray([1, [2], [3, [[4]]]]); //should return [1, 2, 3, 4].
+// steamrollArray([1, [], [3, [[4]]]]); //should return [1, 3, 4].
+// steamrollArray([1, {}, [3, [[4]]]]); //should return [1, {}, 3, 4].
+// // Your solution should not use the Array.prototype.flat() or Array.prototype.flatMap() methods.
+// // Global variables should not be used.
+
+// ========================================================================================
+// // Binary Agents
+// // Return an English translated sentence of the passed binary string.
+// // The binary string will be space separated.
+
+// function binaryAgent(str) {
+//   str = str
+//     .split(" ") // make the string become an array
+//     .map((element) => {
+//       return String.fromCharCode(parseInt(element, 2));
+//     }) // for each element of the array convert binary to a digit (parseInt -->65) and then convert the digit into a character (String.fromCharCode -->A)
+//     .join(""); // then we join the array of characters into a sentence
+//   console.log(str); //
+//   return str;
+// }
+
+// binaryAgent(
+//   "01000001 01110010 01100101 01101110 00100111 01110100 00100000 01100010 01101111 01101110 01100110 01101001 01110010 01100101 01110011 00100000 01100110 01110101 01101110 00100001 00111111"
+// ); //should return the string Aren't bonfires fun!?
+// binaryAgent(
+//   "01001001 00100000 01101100 01101111 01110110 01100101 00100000 01000110 01110010 01100101 01100101 01000011 01101111 01100100 01100101 01000011 01100001 01101101 01110000 00100001"
+// ); //should return the string I love FreeCodeCamp!
+
+// ========================================================================================
+// Everything Be True
+// Check if the predicate (second argument) is truthy on all elements of a collection (first argument).
+// In other words, you are given an array collection of objects.
+// The predicate pre will be an object property and you need to return true if its value is truthy.
+// Otherwise, return false.
+// In JavaScript, truthy values are values that translate to true when evaluated in a Boolean context.
+// Remember, you can access object properties through either dot notation or [] notation.
+
+function truthCheck(collection, pre) {
+  return pre;
 }
 
-steamrollArray([1, [2], [3, [[4]]]]);
+truthCheck(
+  [
+    { name: "Quincy", role: "Founder", isBot: false },
+    { name: "Naomi", role: "", isBot: false },
+    { name: "Camperbot", role: "Bot", isBot: true },
+  ],
+  "isBot"
+); //should return false.
+// truthCheck(
+//   [
+//     { name: "Quincy", role: "Founder", isBot: false },
+//     { name: "Naomi", role: "", isBot: false },
+//     { name: "Camperbot", role: "Bot", isBot: true },
+//   ],
+//   "name"
+// ); //should return true.
+// truthCheck(
+//   [
+//     { name: "Quincy", role: "Founder", isBot: false },
+//     { name: "Naomi", role: "", isBot: false },
+//     { name: "Camperbot", role: "Bot", isBot: true },
+//   ],
+//   "role"
+// ); //should return false.
+// truthCheck(
+//   [
+//     { name: "Pikachu", number: 25, caught: 3 },
+//     { name: "Togepi", number: 175, caught: 1 },
+//   ],
+//   "number"
+// ); //should return true.
+// truthCheck(
+//   [
+//     { name: "Pikachu", number: 25, caught: 3 },
+//     { name: "Togepi", number: 175, caught: 1 },
+//     { name: "MissingNo", number: NaN, caught: 0 },
+//   ],
+//   "caught"
+// ); //should return false.
+// truthCheck(
+//   [
+//     { name: "Pikachu", number: 25, caught: 3 },
+//     { name: "Togepi", number: 175, caught: 1 },
+//     { name: "MissingNo", number: NaN, caught: 0 },
+//   ],
+//   "number"
+// ); //should return false.
+// truthCheck(
+//   [
+//     { name: "Quincy", username: "QuincyLarson" },
+//     { name: "Naomi", username: "nhcarrigan" },
+//     { name: "Camperbot" },
+//   ],
+//   "username"
+// ); //should return false.
+// truthCheck(
+//   [
+//     { name: "freeCodeCamp", users: [{ name: "Quincy" }, { name: "Naomi" }] },
+//     { name: "Code Radio", users: [{ name: "Camperbot" }] },
+//     { name: "", users: [] },
+//   ],
+//   "users"
+// ); //should return true.
+// truthCheck(
+//   [
+//     { id: 1, data: { url: "https://freecodecamp.org", name: "freeCodeCamp" } },
+//     {
+//       id: 2,
+//       data: { url: "https://coderadio.freecodecamp.org/", name: "CodeRadio" },
+//     },
+//     { id: null, data: {} },
+//   ],
+//   "data"
+// ); //should return true.
+// truthCheck(
+//   [
+//     { id: 1, data: { url: "https://freecodecamp.org", name: "freeCodeCamp" } },
+//     {
+//       id: 2,
+//       data: { url: "https://coderadio.freecodecamp.org/", name: "CodeRadio" },
+//     },
+//     { id: null, data: {} },
+//   ],
+//   "id"
+// ); //should return false.
