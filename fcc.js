@@ -4182,26 +4182,60 @@
 // ); //should return the string I love FreeCodeCamp!
 
 // ========================================================================================
-// Everything Be True
-// Check if the predicate (second argument) is truthy on all elements of a collection (first argument).
-// In other words, you are given an array collection of objects.
-// The predicate pre will be an object property and you need to return true if its value is truthy.
-// Otherwise, return false.
-// In JavaScript, truthy values are values that translate to true when evaluated in a Boolean context.
-// Remember, you can access object properties through either dot notation or [] notation.
+// // Everything Be True
+// // Check if the predicate (second argument) is truthy on all elements of a collection (first argument).
+// // In other words, you are given an array collection of objects.
+// // The predicate pre will be an object property and you need to return true if its value is truthy.
+// // Otherwise, return false.
+// // In JavaScript, truthy values are values that translate to true when evaluated in a Boolean context.
+// // Remember, you can access object properties through either dot notation or [] notation.
 
-function truthCheck(collection, pre) {
-  return pre;
-}
+// function truthCheck(collection, pre) {
+//   const mapped = collection.map((element) => {
+//     let el = element.hasOwnProperty(pre);
+//     let val = element[pre];
+//     return el && val ? true : false;
+//   });
+//   console.log(!mapped.includes(false)); //
+//   return !mapped.includes(false);
+// }
+// // suggesed variant================================
+// function truthCheck(collection, pre) {
+//   return collection.every(function (element) {
+//     return element.hasOwnProperty(pre) && Boolean(element[pre]);
+//   });
+// }
+// // Code Explanation
+// // Uses the native “every” method to test whether all elements in the array pass the test.
+// // suggesed variant================================
+// function truthCheck(collection, pre) {
+//   return collection.every((obj) => obj[pre]);
+// }
+// // Code Explanation
+// // For every object in the collection array, check the truthiness of object’s property passed in pre parameter
+// // Array.prototype.every method internally checks if the value returned from the callback is truthy.
+// // Return true if it passes for every object. Otherwise, return false.
+// // suggesed variant================================
 
-truthCheck(
-  [
-    { name: "Quincy", role: "Founder", isBot: false },
-    { name: "Naomi", role: "", isBot: false },
-    { name: "Camperbot", role: "Bot", isBot: true },
-  ],
-  "isBot"
-); //should return false.
+// function truthCheck(collection, pre) {
+//   // Is everyone being true?
+
+// var rs = collection.reduce(function(a, b){
+// return Boolean(a) && Boolean(b[pre]) ? true :false;
+// }, true);
+
+//   return rs;
+// }
+// suggesed variant================================
+
+// truthCheck(
+//   [
+//     { name: "Quincy", role: "Founder", isBot: false },
+//     { name: "Naomi", role: "", isBot: false },
+//     { name: "Camperbot", role: "Bot", isBot: true },
+//   ],
+//   "isBot"
+// ); //should return false.
 // truthCheck(
 //   [
 //     { name: "Quincy", role: "Founder", isBot: false },
@@ -4279,3 +4313,312 @@ truthCheck(
 //   ],
 //   "id"
 // ); //should return false.
+
+// ========================================================================================
+// // Arguments Optional
+// // Create a function that sums two arguments together.
+// // If only one argument is provided, then return a function that expects one argument and returns the sum.
+// // For example, addTogether(2, 3) should return 5, and addTogether(2) should return a function.
+// // Calling this returned function with a single argument will then return the sum:
+// // var sumTwoAnd = addTogether(2);
+// // sumTwoAnd(3) returns 5.
+// // If either argument isn't a valid number, return undefined.
+
+// function addTogether() {
+//   for (let index = 0; index < arguments.length; index++) {
+//     const element = arguments[index];
+//     if (typeof element !== "number") {
+//       return undefined;
+//     }
+//   }
+//   if (arguments.length === 2) {
+//     console.log(arguments[0] + arguments[1]); //
+//     return arguments[0] + arguments[1];
+//   } else if (arguments.length === 1) {
+//     return (arg) => {
+//       if (typeof arg !== "number") {
+//         return undefined;
+//       }
+//       const result = arguments[0] + arg;
+//       console.log(result);
+//       return result;
+//     };
+//   }
+// }
+// // suggesed variant================================
+// function addTogether() {
+//   const [first, second] = arguments;
+
+//   if (typeof first === "number") {
+//     if (typeof second === "number") return first + second;
+//     if (arguments.length === 1) return (second) => addTogether(first, second);
+//   }
+// }
+// // suggesed variant================================
+
+// addTogether(2, 3); //should return 5.
+// addTogether(23, 30); //should return 53.
+// addTogether(5)(7); //should return 12.
+// addTogether("https://www.youtube.com/watch?v=dQw4w9WgXcQ"); //should return undefined.
+// addTogether(2, "3"); //should return undefined.
+// addTogether(2)([3]); //should return undefined.
+// addTogether("2", 3); //should return undefined.
+// addTogether(5, undefined); //should return undefined.
+
+// ========================================================================================
+// // Make a Person
+// // Fill in the object constructor with the following methods below:
+// // getFirstName()
+// // getLastName()
+// // getFullName()
+// // setFirstName(first)
+// // setLastName(last)
+// // setFullName(firstAndLast)
+// // Run the tests to see the expected output for each method.
+// // The methods that take an argument must accept only one argument and it has to be a string.
+// // These methods must be the only available means of interacting with the object.
+
+// const Person = function (firstAndLast) {
+//   // Only change code below this line
+//   // Complete the method below and implement the others similarly
+//   let fullName = firstAndLast;
+
+//   this.getFullName = function () {
+//     console.log(fullName); //
+//     return fullName;
+//   };
+//   this.getFirstName = function () {
+//     console.log(fullName.match(/^\w+/)[0]); //
+//     return fullName.match(/^\w+/)[0];
+//   };
+//   this.getLastName = function () {
+//     console.log(fullName.match(/\w+$/)[0]); //
+//     return fullName.match(/\w+$/)[0];
+//   };
+//   // ======================================================
+//   this.setFirstName = function (first) {
+//     fullName = fullName.replace(fullName.match(/^\w+/)[0], first);
+//     console.log(fullName); //Haskell Ross
+//     return fullName;
+//   };
+//   this.setLastName = function (last) {
+//     fullName = fullName.replace(fullName.match(/\w+$/)[0], last);
+//     console.log(fullName); //Haskell Ross
+//     return fullName;
+//   };
+//   this.setFullName = function (allName) {
+//     console.log((fullName = allName)); //
+//     return (fullName = allName);
+//   };
+// };
+// // suggesed variant================================
+
+// const Person = function (firstAndLast) {
+//   let fullName = firstAndLast;
+
+//   this.getFirstName = function () {
+//     return fullName.split(" ")[0];
+//   };
+
+//   this.getLastName = function () {
+//     return fullName.split(" ")[1];
+//   };
+
+//   this.getFullName = function () {
+//     return fullName;
+//   };
+
+//   this.setFirstName = function (name) {
+//     fullName = name + " " + fullName.split(" ")[1];
+//   };
+
+//   this.setLastName = function (name) {
+//     fullName = fullName.split(" ")[0] + " " + name;
+//   };
+
+//   this.setFullName = function (name) {
+//     fullName = name;
+//   };
+// };
+// // suggesed variant================================
+// const bob = new Person("Bob Ross");
+
+// console.log(Object.keys(bob).length); //6
+// console.log(bob instanceof Person); //true
+// console.log(bob.firstName); //undefined
+// console.log(bob.lastName); //undefined
+
+// No properties should be added.
+// Object.keys(bob).length should always return 6.
+
+// bob instanceof Person; //should return true.
+// bob.firstName; //should return undefined.
+// bob.lastName; //should return undefined.
+// bob.getFirstName(); //should return the string Bob.
+// bob.getLastName(); //should return the string Ross.
+// bob.getFullName(); //should return the string Bob Ross.
+// bob.setFirstName("Haskell"); // bob.getFullName(); //should return the string Haskell Ross after bob.setFirstName("Haskell").
+// bob.setLastName("Curry"); // bob.getFullName(); //should return the string Haskell Curry after bob.setLastName("Curry").
+// bob.setFullName("Haskell Curry"); // bob.getFullName(); //should return the string Haskell Curry after bob.setFullName("Haskell Curry").
+// bob.getFullName();
+// bob.getFirstName(); //should return the string Haskell after bob.setFullName("Haskell Curry").
+// bob.getFullName();
+// bob.getLastName(); //should return the string Curry after bob.setFullName("Haskell Curry").
+// bob.getFullName();
+
+// ========================================================================================
+// // Map the Debris
+// // According to Kepler's Third Law, the orbital period  T
+// //   of two point masses orbiting each other in a circular or elliptic orbit is:
+// // T=2πa3μ−−−√
+
+// // a
+// //   is the orbit's semi-major axis
+// // μ=GM
+// //   is the standard gravitational parameter
+// // G
+// //   is the gravitational constant,
+// // M
+// //   is the mass of the more massive body.
+// // Return a new array that transforms the elements' average altitude into their orbital periods (in seconds).
+// // The array will contain objects in the format {name: 'name', avgAlt: avgAlt}.
+// // The values should be rounded to the nearest whole number. The body being orbited is Earth.
+// // The radius of the earth is 6367.4447 kilometers, and the GM value of earth is 398600.4418 km3s-2.
+
+// // !PLAN:
+// // 1. formula;
+// // 2. map an array;
+// // 3. delete and add property;
+
+// function orbitalPeriod(arr) {
+//   const GM = 398600.4418;
+//   const earthRadius = 6367.4447;
+//   arr.map(function (value) {
+//     if (value.hasOwnProperty("avgAlt")) {
+//       const T = Math.round(
+//         2 * Math.PI * Math.sqrt(Math.pow(value.avgAlt + earthRadius, 3) / GM)
+//       );
+//       delete value.avgAlt;
+//       value.orbitalPeriod = T;
+//     }
+//   });
+//   console.log(arr); //
+//   return arr;
+// }
+
+// // suggesed variant================================
+// function orbitalPeriod(arr) {
+//   const GM = 398600.4418;
+//   const earthRadius = 6367.4447;
+//   return arr.map(({ name, avgAlt }) => {
+//     const earth = earthRadius + avgAlt;
+//     const orbitalPeriod = Math.round(
+//       2 * Math.PI * Math.sqrt(Math.pow(earth, 3) / GM)
+//     );
+//     return { name, orbitalPeriod };
+//   });
+// }
+// // suggesed variant================================
+// function orbitalPeriod(arr) {
+//   const GM = 398600.4418;
+//   const earthRadius = 6367.4447;
+//   // Create new array to prevent modification of the original
+//   const newArr = JSON.parse(JSON.stringify(arr));
+//   // Loop through each item in the array arr
+//   newArr.forEach(function (item) {
+//     // Calculate the Orbital period value
+//     const tmp = Math.round(
+//       2 * Math.PI * Math.sqrt(Math.pow(earthRadius + item.avgAlt, 3) / GM)
+//     );
+//     //Delete the avgAlt property
+//     delete item.avgAlt;
+//     //Add orbitalPeriod property
+//     item.orbitalPeriod = tmp;
+//   });
+
+//   return newArr;
+// }
+// // Code Explanation
+// // GM and earthRadius are both given to us.
+// // The forEach() method is used to execute the function once per element (item) in arr.
+// // tmp holds the value of orbital period for each element calculated using the formula.
+// // The key avgAlt is deleted, and orbital period (tmp) found is assigned to the key orbitalPeriod.
+// // suggesed variant================================
+
+// orbitalPeriod([{ name: "sputnik", avgAlt: 35873.5553 }]); //should return [{name: "sputnik", orbitalPeriod: 86400}].
+// orbitalPeriod([
+//   { name: "iss", avgAlt: 413.6 },
+//   { name: "hubble", avgAlt: 556.7 },
+//   { name: "moon", avgAlt: 378632.553 },
+// ]); //should return [{name : "iss", orbitalPeriod: 5557}, {name: "hubble", orbitalPeriod: 5734}, {name: "moon", orbitalPeriod: 2377399}].
+
+// ========================================================================================
+// // Palindrome Checker
+// // Return true if the given string is a palindrome.
+// // Otherwise, return false.
+// // A palindrome is a word or sentence that's spelled the same way both forward and backward, ignoring punctuation, case, and spacing.
+// // Note: You'll need to remove all non-alphanumeric characters (punctuation, spaces and symbols) and turn everything into the same case (lower or upper case) in order to check for palindromes.
+// // We'll pass strings with varying formats, such as racecar, RaceCar, and race CAR among others.
+// // We'll also pass strings with special symbols, such as 2A3*3a2, 2A3 3a2, and 2_A3*3#A2.
+
+// function palindrome(str) {
+//   str = str.toLowerCase().replace(/,|\.|\/|_| |\||:|-|\(|\)/g, "");
+//   const arrNew = [];
+//   for (let char of str) {
+//     arrNew.unshift(char);
+//   }
+//   const str2 = arrNew.toString().replace(/\,/g, "");
+//   console.log(str === str2); //
+//   if (str !== str2) {
+//     return false;
+//   }
+//   return true;
+// }
+
+// // suggesed variant================================
+// function palindrome(str) {
+//   const alphanumericOnly = str
+//     // 1) Lowercase the input
+//     .toLowerCase()
+//     // 2) Strip out non-alphanumeric characters
+//     .match(/[a-z0-9]/g);
+
+//   // 3) return string === reversedString
+//   return alphanumericOnly.join("") === alphanumericOnly.reverse().join("");
+// }
+// // suggesed variant================================
+
+// palindrome("eye"); //should return true. //should return a boolean.
+// palindrome("_eye"); //should return true.
+// palindrome("race car"); //should return true.
+// palindrome("not a palindrome"); //should return false.
+// palindrome("A man, a plan, a canal. Panama"); //should return true.
+// palindrome("never odd or even"); //should return true.
+// palindrome("nope"); //should return false.
+// palindrome("almostomla"); //should return false.
+// palindrome("My age is 0, 0 si ega ym."); //should return true.
+// palindrome("1 eye for of 1 eye."); //should return false.
+// palindrome("0_0 (: /- :) 0-0"); //should return true.
+// palindrome("five|_/|four"); //should return false.
+
+// ========================================================================================
+// Roman Numeral Converter
+// Convert the given number into a roman numeral.
+// Roman numerals	Arabic numerals
+// M	1000
+// CM	900
+// D	500
+// CD	400
+// C	100
+// XC	90
+// L	50
+// XL	40
+// X	10
+// IX	9
+// V	5
+// IV	4
+// I	1
+// suggesed variant================================
+// suggesed variant================================
+
+// ========================================================================================
