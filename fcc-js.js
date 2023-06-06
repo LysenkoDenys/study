@@ -4905,37 +4905,166 @@
 // ];
 
 // !PLAN:
-// 1. create array of cid;
-// 2. check if cash>price and determine the currency in cid;
-// 3. check if cash>price;
-// 4. check if cash-price >= the currency incan cid and have we the same currency to payback;
-// 5. check if  we have some money in the cid;
-// 6. return object with { status: "", change: "" } with change sorted by value amount;
+// 1. create array of currency cid;
+// 2. determine the sum of currency in cid;
+// 3. check if payback (cash-price) > the currency in cid;
+// 4. check if we have money in the cid;
+// 5. break down 3 cases;
+// 6. make combination of currency to payback in the cid;
+// 7. return object with { status: "", change: [] }
 
 function checkCashRegister(price, cash, cid) {
-  let change = { status: "", change: "" };
-  console.log(price); //
-  console.log(cash); //
-  console.log(cid); //
-  if (price > cash) {
-    return console.log("there are no money for purchace"); //
-  } else {
-    const payback = cash - price;
-    const cashInCid =
-      Math.round(
-        cid.reduce((previous, current) => {
-          return previous + current[1];
-        }, 0) * 100
-      ) / 100;
-    console.log(payback); //
-    console.log(cashInCid); //
-    if (cashInCid > payback && payback) {
+  const change = { status: "", change: [] };
+  const arrNew = [];
+  const amount = [];
+  const nominal = [
+    ["PENNY", 0.01],
+    ["NICKEL", 0.05],
+    ["DIME", 0.1],
+    ["QUARTER", 0.25],
+    ["ONE", 1],
+    ["FIVE", 5],
+    ["TEN", 10],
+    ["TWENTY", 20],
+    ["ONE HUNDRED", 100],
+  ];
+
+  let payback = cash - price;
+  const cashInCid =
+    Math.round(
+      cid.reduce((previous, current) => {
+        return previous + current[1];
+      }, 0) * 100
+    ) / 100;
+  console.log(`payback: ${payback}`); //
+  console.log(`cashInCid: ${cashInCid}`); //
+
+  //if(payback>cashInCid):
+  if (payback > cashInCid) {
+    change.status = "INSUFFICIENT_FUNDS";
+    change.change = arrNew;
+  }
+
+  //if(payback=cashInCid):
+  if (payback === cashInCid) {
+    change.status = "CLOSED";
+    change.change = cid;
+    return change; //
+  }
+
+  // amount:
+  for (let i = 0; i < nominal.length; i++) {
+    const element = Math.round(cid[i][1] / nominal[i][1]);
+    amount.push([nominal[i][0], element]);
+  }
+  // reverse cycle:
+  for (let i = nominal.length - 1; i >= 0; i--) {
+    // if we have apropriate amount of currency and determine needed value
+    if (payback / nominal[i][1] > 1 && amount[i][1] > 0) {
+      console.log(`payback/nominal: ${payback / nominal[i][1]}`);
+
+      // 1.if we have more amount of currency than we need:
+      if (payback / nominal[i][1] < amount[i][1]) {
+        const res1 = Math.floor(payback / nominal[i][1]) * nominal[i][1];
+        console.log(`payback in bigger amount block:${payback}`); //
+        console.log(`res1 in bigger amount block:${res1}`); //
+
+        // if we have the same amount of currency that we need (EXIT of cycle):
+        if (payback - res1 === 0) {
+          arrNew.push([cid[i][0], res1]);
+          change.status = "OPEN";
+          change.change = arrNew;
+          console.log(change); //
+          return change;
+
+          // if we have to find more currency to make payback:
+        } else if (payback - res1 > 0) {
+          arrNew.push([cid[i][0], res1]);
+          payback = Math.round((payback - res1) * 100) / 100;
+        }
+        // 2.if we have less amount of currency than we need:
+      } else if (payback / nominal[i][1] > amount[i][1]) {
+        const res2 = nominal[i][1] * amount[i][1]; //
+        arrNew.push([cid[i][0], res2]);
+        payback = Math.round((payback - res2) * 100) / 100;
+
+        // if we have no appropriate currency to give exact payback (EXIT of cycle):
+        if (i === 0 && payback - res2 > 0) {
+          change.status = "INSUFFICIENT_FUNDS";
+          change.change = [];
+          console.log(change); //
+          return change; //
+        }
+      }
+
       change.status = "OPEN";
+      change.change = arrNew;
     }
   }
   console.log(change); //
   return change;
 }
+
+// suggesed variant================================
+const currencyAmount = {
+  "ONE HUNDRED": 100,
+  TWENTY: 20,
+  TEN: 10,
+  FIVE: 5,
+  ONE: 1,
+  QUARTER: 0.25,
+  DIME: 0.1,
+  NICKEL: 0.05,
+  PENNY: 0.01,
+};
+
+const getTotalCid = (cid) =>
+  cid.reduce((total, [unit, amount]) => total + amount, 0);
+
+const moneyRounder = (amount) => Math.round(amount * 100) / 100;
+
+const checkCashRegister = (price, cash, cid) => {
+  const change = [];
+  let changeValue = cash - price;
+
+  if (changeValue === getTotalCid(cid)) {
+    return {
+      status: "CLOSED",
+      change: cid,
+    };
+  }
+
+  [...cid].reverse().forEach(([unit, amount]) => {
+    const unitValue = currencyAmount[unit];
+
+    if (unitValue > changeValue) {
+      return;
+    }
+
+    let unitsTaken = 0;
+
+    while (changeValue >= unitValue && amount > 0) {
+      changeValue = moneyRounder(changeValue - unitValue);
+      amount = moneyRounder(amount - unitValue);
+      unitsTaken++;
+    }
+
+    change.push([unit, unitsTaken * unitValue]);
+  });
+
+  if (changeValue > 0) {
+    return {
+      status: "INSUFFICIENT_FUNDS",
+      change: [],
+    };
+  }
+
+  return {
+    status: "OPEN",
+    change,
+  };
+};
+// suggesed variant================================
 
 checkCashRegister(19.5, 20, [
   ["PENNY", 1.01],
@@ -4948,47 +5077,47 @@ checkCashRegister(19.5, 20, [
   ["TWENTY", 60],
   ["ONE HUNDRED", 100],
 ]); //should return {status: "OPEN", change: [["QUARTER", 0.5]]}.
-// checkCashRegister(3.26, 100, [
-//   ["PENNY", 1.01],
-//   ["NICKEL", 2.05],
-//   ["DIME", 3.1],
-//   ["QUARTER", 4.25],
-//   ["ONE", 90],
-//   ["FIVE", 55],
-//   ["TEN", 20],
-//   ["TWENTY", 60],
-//   ["ONE HUNDRED", 100],
-// ]); //should return {status: "OPEN", change: [["TWENTY", 60], ["TEN", 20], ["FIVE", 15], ["ONE", 1], ["QUARTER", 0.5], ["DIME", 0.2], ["PENNY", 0.04]]}.
-// checkCashRegister(19.5, 20, [
-//   ["PENNY", 0.01],
-//   ["NICKEL", 0],
-//   ["DIME", 0],
-//   ["QUARTER", 0],
-//   ["ONE", 0],
-//   ["FIVE", 0],
-//   ["TEN", 0],
-//   ["TWENTY", 0],
-//   ["ONE HUNDRED", 0],
-// ]); //should return {status: "INSUFFICIENT_FUNDS", change: []}.
-// checkCashRegister(19.5, 20, [
-//   ["PENNY", 0.01],
-//   ["NICKEL", 0],
-//   ["DIME", 0],
-//   ["QUARTER", 0],
-//   ["ONE", 1],
-//   ["FIVE", 0],
-//   ["TEN", 0],
-//   ["TWENTY", 0],
-//   ["ONE HUNDRED", 0],
-// ]); //should return {status: "INSUFFICIENT_FUNDS", change: []}.
-// checkCashRegister(19.5, 20, [
-//   ["PENNY", 0.5],
-//   ["NICKEL", 0],
-//   ["DIME", 0],
-//   ["QUARTER", 0],
-//   ["ONE", 0],
-//   ["FIVE", 0],
-//   ["TEN", 0],
-//   ["TWENTY", 0],
-//   ["ONE HUNDRED", 0],
-// ]); //should return {status: "CLOSED", change: [["PENNY", 0.5], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]}.
+checkCashRegister(3.26, 100, [
+  ["PENNY", 1.01],
+  ["NICKEL", 2.05],
+  ["DIME", 3.1],
+  ["QUARTER", 4.25],
+  ["ONE", 90],
+  ["FIVE", 55],
+  ["TEN", 20],
+  ["TWENTY", 60],
+  ["ONE HUNDRED", 100],
+]); //should return {status: "OPEN", change: [["TWENTY", 60], ["TEN", 20], ["FIVE", 15], ["ONE", 1], ["QUARTER", 0.5], ["DIME", 0.2], ["PENNY", 0.04]]}.
+checkCashRegister(19.5, 20, [
+  ["PENNY", 0.01],
+  ["NICKEL", 0],
+  ["DIME", 0],
+  ["QUARTER", 0],
+  ["ONE", 0],
+  ["FIVE", 0],
+  ["TEN", 0],
+  ["TWENTY", 0],
+  ["ONE HUNDRED", 0],
+]); //should return {status: "INSUFFICIENT_FUNDS", change: []}.
+checkCashRegister(19.5, 20, [
+  ["PENNY", 0.01],
+  ["NICKEL", 0],
+  ["DIME", 0],
+  ["QUARTER", 0],
+  ["ONE", 1],
+  ["FIVE", 0],
+  ["TEN", 0],
+  ["TWENTY", 0],
+  ["ONE HUNDRED", 0],
+]); //should return {status: "INSUFFICIENT_FUNDS", change: []}.
+checkCashRegister(19.5, 20, [
+  ["PENNY", 0.5],
+  ["NICKEL", 0],
+  ["DIME", 0],
+  ["QUARTER", 0],
+  ["ONE", 0],
+  ["FIVE", 0],
+  ["TEN", 0],
+  ["TWENTY", 0],
+  ["ONE HUNDRED", 0],
+]); //should return {status: "CLOSED", change: [["PENNY", 0.5], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]}.
