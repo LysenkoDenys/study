@@ -4,10 +4,10 @@
 // Simple given a string of words, return the length of the shortest word(s),
 // String won`t be empty and you do not need to account for different data types.
 
-const string = "bitcoin take over the world maybe who knows perhaps";
+const string = 'bitcoin take over the world maybe who knows perhaps';
 
 function findShort(string) {
-  return console.log(Math.min(...string.split(" ").map((item) => item.length)));
+  return console.log(Math.min(...string.split(' ').map((item) => item.length)));
 }
 
 findShort(string);
@@ -19,9 +19,9 @@ findShort(string);
 // and strings and returns a new list with the strings filtered out.
 // example: [1,2,'a','b']==[1,2] - clean the array from strings.
 
-const arr = [1, 2, "a", "b", 3];
+const arr = [1, 2, 'a', 'b', 3];
 function filterNumbers(arr) {
-  return console.log(arr.filter((item) => typeof item === "number"));
+  return console.log(arr.filter((item) => typeof item === 'number'));
 }
 
 filterNumbers(arr);
@@ -46,10 +46,10 @@ solution(arrNumbers1);
 // 'www.codewars.com#about' --> 'www.codewars.com'
 // 'www.codewars.com?page=1' --> 'www.codewars.com?page=1'
 
-const url = "www.codewars.com#about";
+const url = 'www.codewars.com#about';
 
 function removeUrlAnchor(url) {
-  return console.log(url.split("#", 1));
+  return console.log(url.split('#', 1));
 }
 
 removeUrlAnchor(url);
@@ -75,12 +75,12 @@ makeNegative(number);
 function alphanumeric(string) {
   let result1 = [...string].find((element) => /[a - zA - Z]/.test(element));
   let result2 = [...string].find((element) => /[0-9]/.test(element));
-  result1 && result2 ? console.log(string) : console.log("invalid string");
+  result1 && result2 ? console.log(string) : console.log('invalid string');
   // universal RegExp - /^[a-z\d]+$/i.test(string)
 }
 
-alphanumeric("Mazinkaiser"); //invalid string
-alphanumeric("Mazink5aiser"); // Mazink5aiser
+alphanumeric('Mazinkaiser'); //invalid string
+alphanumeric('Mazink5aiser'); // Mazink5aiser
 // =================================================================================
 
 // who likes it?
@@ -109,7 +109,7 @@ function likes(names) {
   //or:
   switch (length) {
     case 0:
-      return console.log("no one likes this");
+      return console.log('no one likes this');
     case 1:
       return console.log(`${names[0]} likes this`);
     case 2:
@@ -124,11 +124,11 @@ function likes(names) {
 }
 
 likes([]);
-likes(["Peter"]);
-likes(["Jacob", "Alex"]);
-likes(["Max", "John", "Mark"]);
-likes(["Alex", "Jacob", "Mark", "Max"]);
-likes(["Alex", "Jacob", "Mark", "Max", "Egor", "Kirillo"]);
+likes(['Peter']);
+likes(['Jacob', 'Alex']);
+likes(['Max', 'John', 'Mark']);
+likes(['Alex', 'Jacob', 'Mark', 'Max']);
+likes(['Alex', 'Jacob', 'Mark', 'Max', 'Egor', 'Kirillo']);
 
 // =================================================================================
 
@@ -138,11 +138,11 @@ likes(["Alex", "Jacob", "Mark", "Max", "Egor", "Kirillo"]);
 
 function pigIt(str) {
   return str
-    .split(" ")
+    .split(' ')
     .map((word) =>
-      /[a-z]/i.test(word) ? word.slice(1) + word.split("")[0] + "ay" : word
+      /[a-z]/i.test(word) ? word.slice(1) + word.split('')[0] + 'ay' : word
     )
-    .join(" ");
+    .join(' ');
   // or:
   // return str
   //   .split("")
@@ -153,8 +153,8 @@ function pigIt(str) {
   //   .join(" ");
 }
 
-pigIt("Pig latin is cool"); // igPay atinlay siay oolcay
-pigIt("Hello world !"); // elloHay orldway !
+pigIt('Pig latin is cool'); // igPay atinlay siay oolcay
+pigIt('Hello world !'); // elloHay orldway !
 
 // =================================================================================
 
@@ -174,7 +174,7 @@ function digitalRoot(num) {
   const n = num.toString();
   if (n.length > 1) {
     const res = n
-      .split("")
+      .split('')
       .reduce((acc, currentValue) => acc + +currentValue, 0);
     return digitalRoot(res);
   } else {
@@ -257,11 +257,11 @@ console.log(moveZeros([1, 2, 0, 1, 0, 1, 0, 3, 0, 1])); // [1, 2, 1, 1, 3, 1, 0,
 function bitCounter(numb) {
   return numb
     .toString(2)
-    .split("")
+    .split('')
     .reduce((acc, currentValue) => acc + +currentValue, 0);
 }
 // best practice:
-countBits = (n) => n.toString(2).split("0").join("").length;
+countBits = (n) => n.toString(2).split('0').join('').length;
 
 console.log(bitCounter(8)); //1
 console.log(countBits(8)); //1
@@ -346,14 +346,14 @@ console.log(arrayDiff([1, 2], [1])); //[2]
 
 function spinWords(string) {
   return string
-    .split(" ")
+    .split(' ')
     .map((element) =>
-      element.length >= 5 ? element.split("").reverse().join("") : element
+      element.length >= 5 ? element.split('').reverse().join('') : element
     )
-    .join(" ");
+    .join(' ');
 }
 
-console.log(spinWords("This is another test")); //drowS
+console.log(spinWords('This is another test')); //drowS
 
 // =================================================================================
 
@@ -385,8 +385,8 @@ function toCamelCase(str) {
     str
       .split(/[-,_]/)
       .slice(1)
-      .map((el) => el.split("")[0].toUpperCase() + el.slice(1))
-      .join("")
+      .map((el) => el.split('')[0].toUpperCase() + el.slice(1))
+      .join('')
   );
   //or:
   // const strArr = str.split("");
@@ -402,8 +402,8 @@ function toCamelCase(str) {
   //or clever solution:
   // return str.replace(/[-_](.)/g, (_, c) => c.toUpperCase());
 }
-console.log(toCamelCase("The_Stealth_Warrior")); //TheStealthWarrior
-console.log(toCamelCase("the-stealth-warrior")); //theStealthWarrior
+console.log(toCamelCase('The_Stealth_Warrior')); //TheStealthWarrior
+console.log(toCamelCase('the-stealth-warrior')); //theStealthWarrior
 
 // =================================================================================
 
@@ -415,7 +415,7 @@ console.log(toCamelCase("the-stealth-warrior")); //theStealthWarrior
 
 //me:
 function duplicateCount(text) {
-  let arr = text.toLowerCase().split("");
+  let arr = text.toLowerCase().split('');
   let duplicate = 0;
   for (let index = 0; index < arr.length; index++) {
     if (arr.filter((el) => arr[index] === el).length > 1) {
@@ -426,9 +426,9 @@ function duplicateCount(text) {
   return duplicate;
 }
 
-console.log(duplicateCount("ab555cd5e5")); //1 --> '5' 5 times
-console.log(duplicateCount("aabBcde")); //2 --> 'a' and 'b'
-console.log(duplicateCount("evergreen")); //2 --> 'e' 4 times and 'r' 2 times
+console.log(duplicateCount('ab555cd5e5')); //1 --> '5' 5 times
+console.log(duplicateCount('aabBcde')); //2 --> 'a' and 'b'
+console.log(duplicateCount('evergreen')); //2 --> 'e' 4 times and 'r' 2 times
 
 // =================================================================================
 
@@ -456,15 +456,15 @@ function order(words) {
 
   // or:
   return words
-    .split(" ")
+    .split(' ')
     .sort((a, b) => a.match(/\d/) - b.match(/\d/))
-    .join(" ");
+    .join(' ');
 }
 
-console.log(order("mine6 of5 is2 Thi1s T4est 3a")); // Thi1s is2 3a T4est of5 mine6
-console.log(order("wr3ong Som1ething is2")); // Som1ething is2 wr3ong
-console.log(order("4of Fo1r pe6ople g3ood th5e the2")); // Fo1r the2 g3ood 4of th5e pe6ople
-console.log(order("")); //
+console.log(order('mine6 of5 is2 Thi1s T4est 3a')); // Thi1s is2 3a T4est of5 mine6
+console.log(order('wr3ong Som1ething is2')); // Som1ething is2 wr3ong
+console.log(order('4of Fo1r pe6ople g3ood th5e the2')); // Fo1r the2 g3ood 4of th5e pe6ople
+console.log(order('')); //
 
 // =================================================================================
 
@@ -473,14 +473,14 @@ console.log(order("")); //
 // We will consider a,e,i,o,u as vowels for this Kata (but not y).
 // The input string will only consist of lower case letters and/or spaces.
 function getCount(str) {
-  return str.split("").filter((el) => /[aeiou]/.test(el)).length;
+  return str.split('').filter((el) => /[aeiou]/.test(el)).length;
 }
 
 //best practice:
 // return (str.match(/[aeiou]/ig)||[]).length;
 
-console.log(getCount("abracadabra")); //5
-console.log(getCount("most of us")); //3
+console.log(getCount('abracadabra')); //5
+console.log(getCount('most of us')); //3
 
 // ===============================================================================================================================================
 // ===============================================================================================================================================
@@ -497,12 +497,12 @@ console.log(getCount("most of us")); //3
 
 function reverseWords(str) {
   return str
-    .split(" ")
-    .map((el) => el.split("").reverse().flat().join(""))
-    .join(" ");
+    .split(' ')
+    .map((el) => el.split('').reverse().flat().join(''))
+    .join(' ');
 }
 
-console.log(reverseWords("The quick brown fox jumps over the lazy dog.")); //ehT kciuq nworb xof spmuj revo eht yzal .god
+console.log(reverseWords('The quick brown fox jumps over the lazy dog.')); //ehT kciuq nworb xof spmuj revo eht yzal .god
 
 // ===============================================================================================================================================
 // Leap Years
@@ -570,7 +570,7 @@ function friend(friends) {
   return friends.filter((el) => el.length === 4);
 }
 
-console.log(friend(["Ryan", "Kieran", "Mark"])); //
+console.log(friend(['Ryan', 'Kieran', 'Mark'])); //
 
 // ===============================================================================================================================================
 
@@ -667,18 +667,18 @@ const isSmooth = (number) => {
   });
 
   if (numNumber !== number0) {
-    return "non-smooth";
+    return 'non-smooth';
   }
 
   return numMax === 2
-    ? "power of 2"
+    ? 'power of 2'
     : numMax === 3
-    ? "3-smooth"
+    ? '3-smooth'
     : numMax === 5
-    ? "Hamming number"
+    ? 'Hamming number'
     : numMax === 7
-    ? "humble number"
-    : "non-smooth";
+    ? 'humble number'
+    : 'non-smooth';
 
   //best practice:
   // var primes = {
@@ -718,13 +718,13 @@ const fizzbuzz = (n) => {
 
   for (let i = 1; i <= n; i++) {
     if (i % 3 === 0 && i % 5 !== 0) {
-      arr.push("Fizz");
+      arr.push('Fizz');
     }
     if (i % 5 === 0 && i % 3 !== 0) {
-      arr.push("Buzz");
+      arr.push('Buzz');
     }
     if (i % 3 === 0 && i % 5 === 0) {
-      arr.push("FizzBuzz");
+      arr.push('FizzBuzz');
     }
     if (i % 3 !== 0 && i % 5 !== 0) {
       arr.push(i);
@@ -755,7 +755,7 @@ console.log(fizzbuzz(15)); //
 
 function findNeedle(haystack) {
   return `found the needle at position ${haystack.findIndex(
-    (el) => el === "needle"
+    (el) => el === 'needle'
   )}`;
 
   //best practice:
@@ -763,14 +763,14 @@ function findNeedle(haystack) {
 }
 console.log(
   findNeedle([
-    "3",
-    "123124234",
+    '3',
+    '123124234',
     undefined,
-    "needle",
-    "world",
-    "hay",
+    'needle',
+    'world',
+    'hay',
     2,
-    "3",
+    '3',
     true,
     false,
   ])
@@ -790,7 +790,7 @@ console.log(
 function uniTotal(string) {
   return string
     ? string
-        .split("")
+        .split('')
         .map((el) => el.charCodeAt(0))
         .reduce((acc, curr) => acc + curr)
     : 0;
@@ -799,7 +799,7 @@ function uniTotal(string) {
   // const uniTotal = str => [...str].reduce((acc, char) => acc + char.charCodeAt(0), 0);
 }
 
-console.log(uniTotal("aaa")); //291
+console.log(uniTotal('aaa')); //291
 
 // ===============================================================================================================================================
 
@@ -824,13 +824,13 @@ function convert(number) {
     arr.push(number.slice(i, i + 2));
   }
 
-  return arr.map((el) => String.fromCharCode(el)).join("");
+  return arr.map((el) => String.fromCharCode(el)).join('');
 
   //best practice:
   // return String.fromCharCode(...number.match(/../g));
 }
 
-console.log(convert("656667")); //ABC
+console.log(convert('656667')); //ABC
 // ===============================================================================================================================================
 
 // Sexy Primes <3
@@ -944,7 +944,7 @@ console.log(getSum(5, -1)); //14
 function arr2bin(arr) {
   return arr
     ? arr
-        .filter((el) => typeof el === "number")
+        .filter((el) => typeof el === 'number')
         .reduce((acc, currentValue) => acc + currentValue, 0)
         .toString(2)
     : 0;
@@ -954,7 +954,7 @@ function arr2bin(arr) {
 }
 
 console.log(arr2bin([1, 2, 3, 4, 5])); //1111
-console.log(arr2bin([1, 2, "a"])); //11
+console.log(arr2bin([1, 2, 'a'])); //11
 console.log(arr2bin([1, 10, 100, 1000])); //10001010111
 console.log(arr2bin([true, true, false, 15])); //1111
 console.log(arr2bin([null])); //
@@ -1125,13 +1125,13 @@ console.log(findAverage([1, 3, 5, 7])); //4
 // 'L', [1, 4, 5, 3, 5 ]  ->  [5, 5, 4, 3, 1]
 
 const flip = (d, a) =>
-  d === "R" ? a.sort((x, y) => x - y) : a.sort((x, y) => y - x);
+  d === 'R' ? a.sort((x, y) => x - y) : a.sort((x, y) => y - x);
 
 //best practice:
 // const flip = (d, a) => a.sort((x, y) => d === 'R' ? x - y : y - x);
 
-console.log(flip("R", [3, 2, 1, 2])); //[1, 2, 2, 3]
-console.log(flip("L", [1, 4, 5, 3, 5])); //[5, 5, 4, 3, 1]
+console.log(flip('R', [3, 2, 1, 2])); //[1, 2, 2, 3]
+console.log(flip('L', [1, 4, 5, 3, 5])); //[5, 5, 4, 3, 1]
 // ===============================================================================================================================================
 
 // Add Length
@@ -1146,10 +1146,10 @@ console.log(flip("L", [1, 4, 5, 3, 5])); //[5, 5, 4, 3, 1]
 // Note: String will have at least one element; words will always be separated by a space.
 
 function addLength(str) {
-  return str.split(" ").map((el) => `${el} ${el.length}`);
+  return str.split(' ').map((el) => `${el} ${el.length}`);
 }
 
-console.log(addLength("apple ban")); //["apple 5", "ban 3"]
+console.log(addLength('apple ban')); //["apple 5", "ban 3"]
 
 // ===============================================================================================================================================
 
@@ -1166,10 +1166,10 @@ console.log(addLength("apple ban")); //["apple 5", "ban 3"]
 // String str will never be null.
 
 var replaceDots = function (str) {
-  return str.replace(/\./g, "-");
+  return str.replace(/\./g, '-');
 };
 
-console.log(replaceDots("one.two.three")); //one-two-three
+console.log(replaceDots('one.two.three')); //one-two-three
 
 // ===============================================================================================================================================
 
@@ -1428,7 +1428,7 @@ console.log(highestRank([12, 10, 8, 12, 7, 6, 4, 10, 12, 10])); //12
 // isDigit("zero")
 
 function isDigit(s) {
-  return s.trim() !== "" && !isNaN(Number(s.trim()));
+  return s.trim() !== '' && !isNaN(Number(s.trim()));
 }
 
 //best practice:
@@ -1436,9 +1436,9 @@ function isDigit(s) {
   return s == parseFloat(s);
 }
 
-console.log(isDigit("s2324")); //false
-console.log(isDigit("-234.4")); //true
-console.log(isDigit(" ")); //false
+console.log(isDigit('s2324')); //false
+console.log(isDigit('-234.4')); //true
+console.log(isDigit(' ')); //false
 
 // ===============================================================================================================================================
 
@@ -1558,13 +1558,13 @@ const points2 = (games) =>
   }, 0);
 
 console.log(
-  points(["1:0", "2:0", "3:0", "4:0", "2:1", "3:1", "4:1", "3:2", "4:2", "4:3"])
+  points(['1:0', '2:0', '3:0', '4:0', '2:1', '3:1', '4:1', '3:2', '4:2', '4:3'])
 ); //30
 console.log(
-  points(["1:1", "2:2", "3:3", "4:4", "2:2", "3:3", "4:4", "3:3", "4:4", "4:4"])
+  points(['1:1', '2:2', '3:3', '4:4', '2:2', '3:3', '4:4', '3:3', '4:4', '4:4'])
 ); //10
 console.log(
-  points(["0:1", "0:2", "0:3", "0:4", "1:2", "1:3", "1:4", "2:3", "2:4", "3:4"])
+  points(['0:1', '0:2', '0:3', '0:4', '1:2', '1:3', '1:4', '2:3', '2:4', '3:4'])
 ); //0
 
 // ===============================================================================================================================================
@@ -1642,12 +1642,12 @@ function revrot(str, sz) {
   function checkChunk(chunk) {
     const sumChunk = [...chunk].reduce((acc, cV) => acc + cV ** 3, 0);
     return sumChunk % 2 === 0
-      ? [...chunk].reverse().join("")
+      ? [...chunk].reverse().join('')
       : `${chunk.slice(1)}${[...chunk][0]}`;
   }
-  return str === "" || sz <= 0 || str.length < sz
-    ? ""
-    : strRev.map((el) => checkChunk(el)).join("");
+  return str === '' || sz <= 0 || str.length < sz
+    ? ''
+    : strRev.map((el) => checkChunk(el)).join('');
 }
 
 //best practice:
@@ -1660,10 +1660,10 @@ const revrot2 = (str, sz) =>
     )
     .join(``);
 
-console.log(revrot("1234", 0)); //""
-console.log(revrot("", 0)); //""
-console.log(revrot("1234", 5)); //""
-console.log(revrot("733049910872815764", 5)); // "330479108928157"
+console.log(revrot('1234', 0)); //""
+console.log(revrot('', 0)); //""
+console.log(revrot('1234', 5)); //""
+console.log(revrot('733049910872815764', 5)); // "330479108928157"
 
 // ===============================================================================================================================================
 
@@ -1715,8 +1715,8 @@ function binarray(a) {
 
   let zeroCase = 0;
   if (result2.hasOwnProperty(0)) {
-    zeroCase = +result2["0"].at(-1).match(/(?<=:)\d*/) + 1;
-    delete result2["0"];
+    zeroCase = +result2['0'].at(-1).match(/(?<=:)\d*/) + 1;
+    delete result2['0'];
     // console.log(`zeroCase: ${zeroCase}`); //
   }
 
@@ -1836,13 +1836,13 @@ console.log(integrate(90, 2)); //"30x^3"
 // min([1,2,3,4,5], 'index') // => 0
 
 function min(arr, toReturn) {
-  return toReturn === "value"
+  return toReturn === 'value'
     ? Math.min(...arr)
     : arr.indexOf(Math.min(...arr));
 }
 
-console.log(min([1, 2, 3, 4, 5], "value")); //1
-console.log(min([1, 2, 3, 4, 5], "index")); //0
+console.log(min([1, 2, 3, 4, 5], 'value')); //1
+console.log(min([1, 2, 3, 4, 5], 'index')); //0
 // ===============================================================================================================================================
 
 // Integer depth
@@ -1871,10 +1871,10 @@ function computeDepth(x) {
   while (arr.length < 10) {
     const value = x * counter;
     const arrNew = String(value)
-      .split("")
+      .split('')
       .map((el) => +el);
     arrNew.forEach((el) => {
-      return arr.includes(el) ? "" : arr.push(el);
+      return arr.includes(el) ? '' : arr.push(el);
     });
     counter++;
   }
@@ -1930,19 +1930,19 @@ function duplicateCount(text) {
   return (
     text
       .toLowerCase()
-      .split("")
+      .split('')
       .sort()
-      .join("")
+      .join('')
       .match(/([^])\1+/g) || []
   ).length; //two characters next one by one
 }
 
-console.log(duplicateCount("")); //0
-console.log(duplicateCount("abcde")); //0
-console.log(duplicateCount("aabbcde")); //2
-console.log(duplicateCount("aabBcde")); //2
-console.log(duplicateCount("Indivisibility")); //1
-console.log(duplicateCount("Indivisibilities")); //2
+console.log(duplicateCount('')); //0
+console.log(duplicateCount('abcde')); //0
+console.log(duplicateCount('aabbcde')); //2
+console.log(duplicateCount('aabBcde')); //2
+console.log(duplicateCount('Indivisibility')); //1
+console.log(duplicateCount('Indivisibilities')); //2
 
 // ===============================================================================================================================================
 
@@ -1957,7 +1957,7 @@ function isPangram(string) {
   [...string.toLowerCase()].forEach((el) =>
     !arrUnique.includes(el) && el.match(/[a-z]|\S[\.]/)
       ? arrUnique.push(el)
-      : ""
+      : ''
   );
   return arrUnique.length === 26;
 }
@@ -1965,13 +1965,13 @@ function isPangram(string) {
 //best practice:
 function isPangram(string) {
   string = string.toLowerCase();
-  return "abcdefghijklmnopqrstuvwxyz".split("").every(function (x) {
+  return 'abcdefghijklmnopqrstuvwxyz'.split('').every(function (x) {
     return string.indexOf(x) !== -1;
   });
 }
 
-console.log(isPangram("The quick brown fox, jumps over the lazy dog.")); //true
-console.log(isPangram("This is not a pangram.")); //false
+console.log(isPangram('The quick brown fox, jumps over the lazy dog.')); //true
+console.log(isPangram('This is not a pangram.')); //false
 
 // ===============================================================================================================================================
 
@@ -1995,8 +1995,8 @@ function whatCentury(year) {
 
   function nth(n) {
     return (
-      ["st", "nd", "rd"][(((((n < 0 ? -n : n) + 90) % 100) - 10) % 10) - 1] ||
-      "th"
+      ['st', 'nd', 'rd'][(((((n < 0 ? -n : n) + 90) % 100) - 10) % 10) - 1] ||
+      'th'
     );
   }
   console.log((((93 % 100) - 10) % 10) - 1); //
@@ -2008,17 +2008,17 @@ function whatCentury(year) {
   var century = Math.ceil(year / 100);
   return (
     century +
-    (century < 20 ? "th" : ["th", "st", "nd", "rd"][century % 10] || "th")
+    (century < 20 ? 'th' : ['th', 'st', 'nd', 'rd'][century % 10] || 'th')
   );
 }
 
-console.log(whatCentury("1999")); //20th
-console.log(whatCentury("2011")); //21st
-console.log(whatCentury("2154")); //22nd
-console.log(whatCentury("2259")); //23rd
-console.log(whatCentury("1234")); //13rd
-console.log(whatCentury("1023")); //11th
-console.log(whatCentury("2000")); //20th
+console.log(whatCentury('1999')); //20th
+console.log(whatCentury('2011')); //21st
+console.log(whatCentury('2154')); //22nd
+console.log(whatCentury('2259')); //23rd
+console.log(whatCentury('1234')); //13rd
+console.log(whatCentury('1023')); //11th
+console.log(whatCentury('2000')); //20th
 
 // ===============================================================================================================================================
 
@@ -2036,19 +2036,19 @@ function dup(s) {
     for (let i = 0; i < el.length; i++) {
       if (el[i] !== el[i + 1]) arrNew.push(el[i]);
     }
-    return arrNew.join("");
+    return arrNew.join('');
   });
 }
 
 //best practice:
 function dup(s) {
-  return s.map((x) => x.replace(/(.)\1+/g, "$1"));
+  return s.map((x) => x.replace(/(.)\1+/g, '$1'));
   //$1 refers to the first group (captured by the ())
   // \1 matches the same text as most recently matched by the 1st capturing group
   // + matches the previous token between one and unlimited times, as many times as possible, giving back as needed (greedy)
 }
 
-console.log(dup(["abracadabra", "allottee", "assessee"])); // ["abracadabra", "alote", "asese"]
+console.log(dup(['abracadabra', 'allottee', 'assessee'])); // ["abracadabra", "alote", "asese"]
 
 // ===============================================================================================================================================
 
@@ -2256,7 +2256,7 @@ function chooseBestSum(t, k, ls) {
   rec(0, ls, k);
 
   var sol = arr.sort((a, b) => b - a).find((a) => a <= t);
-  return typeof sol === "undefined" ? null : sol;
+  return typeof sol === 'undefined' ? null : sol;
 }
 
 // rec takes 3 arguments : 'sum' - which in this case acts kind of like the accumulator in a reduce function.
@@ -2330,11 +2330,11 @@ function lineUp(commands) {
 
   function rotate(el) {
     switch (el) {
-      case "L":
+      case 'L':
         arrNew[0] += 90;
         arrNew[1] -= 90;
         break;
-      case "R":
+      case 'R':
         arrNew[0] -= 90;
         arrNew[1] += 90;
         break;
@@ -2360,19 +2360,19 @@ function lineUp(commands) {
 
 //or:
 function lineUp(commands) {
-  return commands.replace(/[RL]A*[RL]|[RL][RL]/g, "A").replace(/[LR]A*/g, "")
+  return commands.replace(/[RL]A*[RL]|[RL][RL]/g, 'A').replace(/[LR]A*/g, '')
     .length;
 }
 //or:
 
-console.log(lineUp("LLARL")); //3
-console.log(lineUp("RLR")); //1
-console.log(lineUp("")); //0
-console.log(lineUp("L")); //0
-console.log(lineUp("A")); //1
-console.log(lineUp("AAAAAAAAAAAAAAA")); //15
-console.log(lineUp("RRRRRRRRRRLLLLLLLLLRRRRLLLLLLLLLL")); //16
-console.log(lineUp("AALAAALARAR")); //5
+console.log(lineUp('LLARL')); //3
+console.log(lineUp('RLR')); //1
+console.log(lineUp('')); //0
+console.log(lineUp('L')); //0
+console.log(lineUp('A')); //1
+console.log(lineUp('AAAAAAAAAAAAAAA')); //15
+console.log(lineUp('RRRRRRRRRRLLLLLLLLLRRRRLLLLLLLLLL')); //16
+console.log(lineUp('AALAAALARAR')); //5
 
 // ===============================================================================================================================================
 
@@ -2462,21 +2462,229 @@ console.log(numbers.odd()); //[1, 3, 5]
 // e.g. "ninety eight", "ninety nine"; is same order as "ninety-eight", "ninety-nine"
 
 function sortByName(ary) {
-  return [];
+  const numbersToWords = {
+    0: 'zero',
+    1: 'one',
+    2: 'two',
+    3: 'three',
+    4: 'four',
+    5: 'five',
+    6: 'six',
+    7: 'seven',
+    8: 'eight',
+    9: 'nine',
+    10: 'ten',
+    11: 'eleven',
+    12: 'twelve',
+    13: 'thirteen',
+    14: 'fourteen',
+    15: 'fifteen',
+    16: 'sixteen',
+    17: 'seventeen',
+    18: 'eighteen',
+    19: 'nineteen',
+    20: 'twenty',
+    30: 'thirty',
+    40: 'forty',
+    50: 'fifty',
+    60: 'sixty',
+    70: 'seventy',
+    80: 'eighty',
+    90: 'ninety',
+    100: 'hundred',
+  };
+
+  const newArr =
+    ary.length === 0
+      ? []
+      : ary
+          .map((item) => digits2words(item))
+          .map(JSON.parse)
+          .sort()
+          .map((el) => el[1]);
+
+  function digits2words(item) {
+    // for 000:
+    if (item.toString().length === 3) {
+      const hundreds =
+        item / 100 >= 1
+          ? numbersToWords[Math.floor(item / 100)] + '-hundred'
+          : '';
+
+      const dozens =
+        +item.toString().slice(1) / 10 > 0
+          ? numbersToWords[+item.toString().slice(1)] ||
+            numbersToWords[Math.floor(+item.toString().slice(1) / 10) * 10]
+          : '';
+
+      const single =
+        +item.toString().slice(2) > 0 &&
+        numbersToWords[+item.toString().slice(1)] === undefined
+          ? numbersToWords[+item.toString().slice(2)]
+          : '';
+      const result = `${hundreds}-${dozens}-${single}`;
+      return `["${result.replace(/--/g, '-').replace(/-$/g, '')}", ${item}]`;
+      //for 00:
+    } else if (item.toString().length === 2) {
+      const dozens =
+        item / 10 >= 1
+          ? numbersToWords[item] || numbersToWords[Math.floor(item / 10) * 10]
+          : '';
+
+      const single =
+        +item.toString().slice(1) > 0 && numbersToWords[item] === undefined
+          ? numbersToWords[+item.toString().slice(1)]
+          : '';
+
+      const result = `${dozens}-${single}`;
+      return `["${result.replace(/--/g, '-').replace(/-$/g, '')}", ${item}]`;
+      //for 0:
+    } else if (item.toString().length === 1) {
+      return `["${numbersToWords[item]}", ${item}]`;
+    }
+  }
+  return newArr;
 }
 
 //best practice:
+function sortByName(arr) {
+  return arr.sort((a, b) => num2word(a).localeCompare(num2word(b)));
+}
+
+function num2word(n) {
+  let a = [
+    'zero',
+    'one',
+    'two',
+    'three',
+    'four',
+    'five',
+    'six',
+    'seven',
+    'eight',
+    'nine',
+    'ten',
+    'eleven',
+    'twelve',
+    'thirteen',
+    'fourteen',
+    'fifteen',
+    'sixteen',
+    'seventeen',
+    'eighteen',
+    'nineteen',
+  ];
+  let b = [
+    'twenty',
+    'thirty',
+    'forty',
+    'fifty',
+    'sixty',
+    'seventy',
+    'eighty',
+    'ninety',
+  ];
+  if (n >= 0 && n < 20) return a[n];
+  if (n >= 20 && n < 100)
+    return b[Math.floor(n / 10) - 2] + (n % 10 ? '-' + a[n % 10] : '');
+  if (n >= 100 && n < 1000)
+    return (
+      a[Math.floor(n / 100)] +
+      ' hundred' +
+      (n % 100 ? ' ' + num2word(n % 100) : '')
+    );
+}
 
 console.log(sortByName([1, 2, 3, 4])); //[4,1,3,2]
+console.log(sortByName([8, 8, 9, 9, 10, 10])); //[8, 8, 9, 9, 10, 10]
+console.log(sortByName([9, 99, 999])); //[9, 999, 99]
 
 // ===============================================================================================================================================
+// 7 kyu
+// Slice the middle of a list backwards
+// Write a function that takes a list of at least four elements as an argument and returns a list of the middle two or three elements in reverse order.
+
+function reverseMiddle(array) {
+  return array.length % 2 === 0
+    ? [array[array.length / 2 - 1], array[array.length / 2]].reverse()
+    : [
+        array[Math.floor(array.length / 2) - 1],
+        array[Math.floor(array.length / 2)],
+        array[Math.floor(array.length / 2 + 1)],
+      ].reverse();
+}
 
 //best practice:
+function reverseMiddle(a) {
+  let n = a.length,
+    k = n >> 1;
+  return a.slice(k - 1, k + 1 + (n % 2)).reverse();
+}
+
+console.log(reverseMiddle([1, 2, 3, 4, 5, 6])); // [4, 3]
+console.log(reverseMiddle([1, 2, 3, 4, 5])); // [4, 3, 2]
 
 // ===============================================================================================================================================
+// 5kyu
+// Basic Nico variation
+
+// Task
+// Write a function nico/nico() that accepts two parameters:
+
+// key/$key - string consists of unique letters and digits
+// message/$message - string to encode
+// and encodes the message using the key.
+
+// First create a numeric key basing on a provided key by assigning each letter position
+// in which it is located after setting the letters from key in an alphabetical order.
+
+// For example, for the key crazy we will get 23154 because of acryz (sorted letters from the key).
+// Let's encode secretinformation using our crazy key.
+
+// 2 3 1 5 4
+// ---------
+// s e c r e
+// t i n f o
+// r m a t i
+// o n
+// After using the key:
+
+// 1 2 3 4 5
+// ---------
+// c s e e r
+// n t i o f
+// a r m i t
+//   o n
+
+function nico(key, message) {
+  // dcieslak: ACRYZ - 12345 A - 1, C - 2, R - 3, Y - 4, Z - 5. => C(2)R(3)A(1)Z(5)Y(4)
+  const arrCharNum = [...key].sort().map((el, index) => [el, index + 1]);
+  const arrCharNum2Num = [...key].map((el) => {
+    const foundPair = arrCharNum.find((pair) => pair[0] === el);
+    return foundPair ? foundPair[1] : null;
+  });
+  const chunk = message.slice(0, key.length).split('');
+
+  chunk.map((el) => el);
+  // const arrMessage = (element) => {
+  //   const chunk = element.match(/[.]{message.length}/g);
+  //   return console.log(chunk); //;
+  // };
+  // arrMessage(message);
+
+  console.log(arrCharNum2Num); //
+  console.log(chunk); //
+  // console.log(arrMessage()); //
+  return;
+}
+
+console.log(nico('crazy', 'secretinformation')); //"cseerntiofarmit on  "
+// console.log(nico("abc", "abcd")); //"abcd  "
+// console.log(nico("ba", "1234567890")); //"2143658709"
+// console.log(nico("a", "message")); //"message"
+// console.log(nico("key", "key")); //"eky"
 
 //best practice:
-
 // ===============================================================================================================================================
 
 //best practice:
