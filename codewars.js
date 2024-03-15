@@ -2431,8 +2431,8 @@ console.log(numbers.odd()); //[1, 3, 5]
 
 // ===============================================================================================================================================
 
-//Sort - one, three, two
 // 5kyu
+//Sort - one, three, two
 
 // Hey You !
 // Sort these integers for me ...
@@ -2659,32 +2659,69 @@ console.log(reverseMiddle([1, 2, 3, 4, 5])); // [4, 3, 2]
 function nico(key, message) {
   // dcieslak: ACRYZ - 12345 A - 1, C - 2, R - 3, Y - 4, Z - 5. => C(2)R(3)A(1)Z(5)Y(4)
   const arrCharNum = [...key].sort().map((el, index) => [el, index + 1]);
-  const arrCharNum2Num = [...key].map((el) => {
+  const arrCharNumToNum = [...key].map((el) => {
     const foundPair = arrCharNum.find((pair) => pair[0] === el);
     return foundPair ? foundPair[1] : null;
   });
-  const chunk = message.slice(0, key.length).split('');
 
-  chunk.map((el) => el);
-  // const arrMessage = (element) => {
-  //   const chunk = element.match(/[.]{message.length}/g);
-  //   return console.log(chunk); //;
-  // };
-  // arrMessage(message);
+  const newChunk = [];
+  while (message.length > 0) {
+    const newTempChunk = [];
+    const chunk = message.slice(0, key.length).split('');
 
-  console.log(arrCharNum2Num); //
-  console.log(chunk); //
-  // console.log(arrMessage()); //
-  return;
+    function mergeArraysToArrayOfObjects(arr1, arr2) {
+      for (let i = 0; i < arr1.length; i++) {
+        newTempChunk.push(`${arr1[i]}:${arr2[i]}`);
+      }
+    }
+    mergeArraysToArrayOfObjects(arrCharNumToNum, chunk);
+
+    message = message.slice(key.length);
+
+    newChunk.push(
+      newTempChunk
+        .sort((a, b) => {
+          const firstDigitA = parseInt(a.split(':')[0]);
+          const firstDigitB = parseInt(b.split(':')[0]);
+
+          return firstDigitA - firstDigitB;
+        })
+        .join('-')
+        .replace(/-*\d+:/g, '')
+        .replace(/undefined/g, ' ')
+    );
+  }
+
+  return newChunk.join('');
+}
+
+//best practice:
+function nico(key, message) {
+  let k = key.length,
+    m = message.length;
+
+  if (m % k) message += ' '.repeat(k - (m % k));
+
+  let cipher = [...key]
+    .map((char, i) => [char, i])
+    .sort((a, b) => a[0].localeCompare(b[0]))
+    .map((a, i) => a.concat(i))
+    .sort((a, b) => a[1] - b[1])
+    .map((a) => a[2]);
+
+  let result = [...message]
+    .map((char, i) => [char, Math.floor(i / k) * k + cipher[i % k]])
+    .sort((a, b) => a[1] - b[1])
+    .map((a) => a[0])
+    .join('');
+
+  return result;
 }
 
 console.log(nico('crazy', 'secretinformation')); //"cseerntiofarmit on  "
-// console.log(nico("abc", "abcd")); //"abcd  "
-// console.log(nico("ba", "1234567890")); //"2143658709"
-// console.log(nico("a", "message")); //"message"
-// console.log(nico("key", "key")); //"eky"
-
-//best practice:
+console.log(nico('abc', 'abcd')); //"abcd  "
+console.log(nico('ba', '1234567890')); //"2143658709"
+console.log(nico('p2xl8raoie', '44r55k6w9mb')); //"456m95w4kr       b  "
 // ===============================================================================================================================================
 
 //best practice:
