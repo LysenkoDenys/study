@@ -2420,10 +2420,313 @@ sumNumbers2(2, 5, 80, 1, 10, 12); // 110
  * 3. Также вызовите обе функции
  */
 
+console.log(firstFunction(5, 5)); //25
+
 function firstFunction(a, b) {
   return a + b;
 }
 
+function firstFunction(a, b) {
+  return a * b;
+}
+
+// console.log(secondFunction(6, 6)); //ReferenceError: Cannot access 'secondFunction' before initialization
+
 const secondFunction = function (a, b) {
   return a + b;
 };
+
+// const secondFunction = function (a, b) {
+//   return a + b;
+// };
+
+console.log(secondFunction(6, 6)); //36
+
+// 1 function declaration:
+// - can be redeclared and reaasigned it hoistable (we can call it before declaration)
+// 2 function expression:
+// - can`t be redeclared and not hoistable (we can`t call it before declaration - will have an error)
+
+/** ЗАДАЧА 63 - Зона видимости функции
+ *
+ * Что будет выведено в консоль?
+ * Ответьте на вопрос без запуска кода
+ */
+
+const b1 = 2;
+let d = 15;
+
+function myFn1(a) {
+  let b1;
+  let d = 10;
+  myFn2(b);
+}
+
+function myFn2(a) {
+  let c = 5;
+  console.log(a, b1, c, d); //undefined, 2, 5, 15
+}
+
+myFn1();
+
+/** ЗАДАЧА 64 - Hoisting
+ *
+ * Измените код, чтобы исправить ошибку после строки 2484.
+ *
+ * Ошибка после строки 21 все равно должна генерироваться.
+ * Почему ошибка после строки 21 возникает?
+ */
+
+const a17 = 5;
+const b17 = 10;
+
+if (b17 > a17) {
+  let c17 = 2;
+  c17 = a17 + b17 + c17;
+  // ДО: ReferenceError: Cannot access 'c' before initialization
+  // ПОСЛЕ: Нет ошибки
+  console.log(c17); //17
+  // 17
+}
+
+// console.log(c17);
+// Uncaught ReferenceError: c is not defined
+// because of 'c17' is only in the block scope
+
+/** ЗАДАЧА 65 - Тернарный оператор
+ *
+ * Измените функцию "isNumber", используя тернарный оператор
+ */
+
+function isNumber(a) {
+  return typeof a === 'number' ? `${a} - это число` : `${a} - это не число`;
+}
+
+console.log(isNumber(10)); // 10 - это число
+console.log(isNumber('Привет')); // Привет - это не число
+console.log(isNumber(true)); // true - это не число
+
+/** ЗАДАЧА 66 - Стрелочные функции
+ *
+ * Замените обычные функции на стрелочные
+ */
+
+const mult = (a, b) => a * b;
+
+// setTimeout(() => console.log(mult(5, 10)), 1000); // 50
+
+/** ЗАДАЧА 67 - Параметры функции по умолчанию
+ *
+ * 1. Ответьте на следующий вопрос:
+ *  - Почему в строке 12 мы не можем просто использовать оператор ИЛИ?
+ *    mult = mult || 2
+ *
+ * 2. Перепишите функцию с использованием значения по умолчанию
+ * для параметра mult в "multiplyBy"
+ */
+
+function multiplyBy(a, mult = 2) {
+  // mult = mult !== undefined ? mult : 2;
+  // mult = mult || 2 --> we CAN do this!
+  console.log(a * mult);
+}
+
+multiplyBy(2); // 4
+multiplyBy(2, undefined); // 4
+multiplyBy(2, 0); // 0
+multiplyBy(5, 10); // 50
+
+/** ЗАДАЧА 68 - Проверка наличия аргументов в вызове функции
+ *
+ * Измените функцию "square" так, чтобы в случае ее вызова
+ * без аргумента генерировалась ошибка
+ * "Функция "square" не может быть вызвана без аргумента"
+ */
+
+function square(a) {
+  a === undefined
+    ? console.log(
+        `Uncaught Error: the function cannot be invoked without arguments`
+      )
+    : console.log(a * a);
+}
+
+//suggested solution:
+if (arguments.length === 0) {
+  throw new Error('Функция "square" не может быть вызвана без аргумента');
+}
+
+square(10);
+// 100
+
+square();
+// ДО: NaN
+// ПОСЛЕ: Uncaught Error: Функция "square" не может быть вызвана без аргумента
+
+/** ЗАДАЧА 69 - Деструктуризация объектов
+ *
+ * Создайте функцию "mult", в которой будут умножаться
+ * значения свойств x, y, z переданного объекта
+ *
+ * Результат умножения верните из функции
+ */
+
+const objectWithNumbers = {
+  x: 5,
+  y: 20,
+  z: 3,
+};
+
+// Создайте функцию здесь:
+
+// v1:
+function mult2({ x, y, z }) {
+  return x * y * z;
+}
+
+// v2:
+function mult3(object) {
+  const { x, y, z } = object;
+  return x * y * z;
+}
+
+//suggested solution:
+const mult4 = ({ x, y, z }) => x * y * z;
+
+const result3 = mult2(objectWithNumbers);
+console.log(result3); // 300
+const result4 = mult3(objectWithNumbers);
+console.log(result4); // 300
+
+/** ЗАДАЧА 70 - Деструктуризация массивов и "rest" оператор
+ *
+ * Присвойте переменным "a", "b" и "с" значения, используя
+ * деструктуризацию массивов и "rest" оператор
+ *
+ * Значения переменных должны быть такими как в выводах в консоли
+ */
+
+const arr19 = [1, 2, 3, 4, 5, 6, 7];
+
+// Напишите код здесь:
+const [a19, b19, ...c19] = arr19;
+
+console.log(a19); // 1
+console.log(b19); // 2
+console.log(c19); // [3, 4, 5, 6, 7]
+
+/** ЗАДАЧА 71 - Spread Operator
+ *
+ * Используя оператор "spread" создайте новый массив
+ * Вывод в консоли должен быть таким же как в конце задания
+ */
+
+const a20 = [1, 2];
+const b20 = [4, 5];
+const c20 = [8, 9, 10];
+const d20 = 11;
+
+// Напишите код здесь
+const combinedArray = [0, ...a20, 3, ...b20, 6, 7, ...c20, d20];
+
+console.log(combinedArray);
+// [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+
+/** ЗАДАЧА 72 - Копия массива
+ *
+ * Создайте копию массива.
+ * При изменении копии массива оригинальный массив не должен изменяться
+ */
+
+const a21 = [1, 2, 3];
+
+// Напишите код здесь
+// v1:
+const b21 = [...a21];
+// v2:
+const strB22 = a21.join('').toString();
+const b22 = [...strB22].map((el) => +el);
+// v3:
+const b23 = JSON.parse(JSON.stringify(a21));
+//suggested solution:
+const b24 = Array.from(a21);
+
+b21.push('newElement');
+b22.push('newElement');
+b23.push('newElement');
+b24.push('newElement');
+
+console.log(a21); // [1, 2, 3]
+console.log(b21); // [1, 2, 3, "newElement"]
+console.log(b22); // [1, 2, 3, "newElement"]
+console.log(b23); // [1, 2, 3, "newElement"]
+console.log(b24); // [1, 2, 3, "newElement"]
+
+/** ЗАДАЧА 73 - Шаблонные строки
+ *
+ * Создайте функцию "carInfo", которая возвращает информацию о машине:
+ *  - Автомобиль считается дешевым, если его цена <= 20000
+ *  - Автомобиль считается дорогим, если его цена > 20000
+ *
+ * Выводы в консоли должны совпадать с теми, которые в конце задачи
+ */
+
+const cars1 = [
+  { brand: 'Honda', price: 13000 },
+  { brand: 'Rolls-Royce', price: 120000 },
+];
+
+// Создайте функцию "carInfo" здесь
+function carInfo({ brand, price }) {
+  return price > 20000
+    ? `Price of ${brand} - ${price} and it is a rich car`
+    : `Price of ${brand} - ${price} and it is a cheap car`;
+}
+
+//suggested solution:
+function carInfo({ brand, price }) {
+  return `Цена автомобиля ${brand} - ${price}$ и это ${
+    price > 20000 ? 'дорогая' : 'дешёвая'
+  } машина`;
+}
+
+cars1.forEach((car) => console.log(carInfo(car)));
+// Цена автомобиля Honda - 13000$ и это дешёвая машина
+// Цена автомобиля Rolls-Royce - 120000$ и это дорогая машина
+
+/** ЗАДАЧА 74 - Деструктуризация объектов
+ *
+ * Создайте функцию "shortPerson", которая деструктуризирует объект
+ * и возвращает его короткую версию
+ *
+ * Пример результата:
+ * { n: "Mike", c: "Spain", a: 23, p: 100 }
+ *
+ * Если входной объект не имеет поля postsQuantity,
+ * он должен получить значение по умолчанию 0
+ */
+
+const person1 = {
+  name: 'Mike',
+  info: {
+    country: 'Spain',
+    age: 23,
+  },
+  postsQuantity: 100,
+};
+
+const person2 = {
+  name: 'Alice',
+  info: {
+    country: 'Italy',
+    age: 25,
+  },
+};
+
+// Напишите функцию "shortPerson" здесь
+
+console.log(shortPerson(person1));
+// { n: "Mike", c: "Spain", a: 23, p: 100 }
+
+console.log(shortPerson(person2));
+// { n: "Alice", c: "Italy", a: 25, p: 0 }
