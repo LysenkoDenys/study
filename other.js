@@ -2344,11 +2344,86 @@ console.log(arrNew5.onlyNumbers()); //[ 1, 2, 5 ]
  * Попробуйте это.
  */
 
+// v1
 class CustomArray extends Array {
   customPush(newElement) {
-    return this.splice(this.length + 1, 0, newElement);
+    const arrNew = this;
+    arrNew.splice(arrNew.length, 0, newElement);
+    console.log(`a new element ${newElement} have been added to the array`); //
+    return arrNew;
   }
 }
 
-const arrNew6 = new CustomArray();
-console.log(arrNew6.customPush(3)); //
+// v2
+class CustomArray2 extends Array {
+  // push make the same effect:
+  customPush2(newElement) {
+    const arrNew = this;
+    this[this.length] = newElement;
+    //alt:
+    // this.length += 1;
+    // this[this.length - 1] = newElement;
+    console.log(`a new element ${newElement} have been added to the array`); //
+    return arrNew;
+  }
+}
+
+const arrNew6 = new CustomArray(1, 2, 1);
+console.log(arrNew6.customPush(3)); //a new element 3 have been added to the array -->CustomArray(4) [ 1, 2, 1, 3 ]
+console.log(`push: ${arrNew6.push(3)}`); //push: 5
+console.log(arrNew6); //CustomArray(5) [ 1, 2, 1, 3, 3 ]
+
+const arrNew7 = new CustomArray2(1, 2, 1); //a new element 3 have been added to the array -->CustomArray(4) [ 1, 2, 1, 3 ]
+console.log(arrNew7.customPush2(3)); // 'push of custom' has a prioritet than embedded 'push'
+console.log(`push: ${arrNew7.push(3)}`); //push: 5
+console.log(arrNew7); //CustomArray2(5) [ 1, 2, 1, 3, 3 ]
+
+/** ЗАДАЧА 61 - Сумма чисел
+ *
+ * 1. Создайте функцию "sumNumbers", которая будет суммировать все переданные ей аргументы.
+ * Количество аргументов неизвестно
+ *
+ * 2. Используйте console.log внутри функции для вывода результата
+ *
+ * 3. Также верните эту сумму как результат функции
+ */
+
+function sumNumbers(...params) {
+  return console.log([...params].reduce((acc, cv) => acc + cv)); //
+}
+
+//suggested solution:
+function sumNumbers2() {
+  let sum = 0;
+  for (let i = 0; i < arguments.length; i++) {
+    sum += arguments[i];
+  }
+  console.log('Sum of all arguments is ', sum);
+
+  return sum;
+}
+
+sumNumbers(1, 3); // 4
+sumNumbers(10, 20, 5); // 35
+sumNumbers(2, 5, 80, 1, 10, 12); // 110
+
+sumNumbers2(1, 3); // 4
+sumNumbers2(10, 20, 5); // 35
+sumNumbers2(2, 5, 80, 1, 10, 12); // 110
+
+/** ЗАДАЧА 62 - Разница в объявлении функций
+ *
+ * 1. Объясните разницу между двумя вариантами объявления функций
+ *
+ * 2. Покажите эту разницу, добавив дополнительный код под функциями
+ *
+ * 3. Также вызовите обе функции
+ */
+
+function firstFunction(a, b) {
+  return a + b;
+}
+
+const secondFunction = function (a, b) {
+  return a + b;
+};
