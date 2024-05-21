@@ -2706,7 +2706,7 @@ cars1.forEach((car) => console.log(carInfo(car)));
  * он должен получить значение по умолчанию 0
  */
 
-const person1 = {
+const person11 = {
   name: 'Mike',
   info: {
     country: 'Spain',
@@ -2715,7 +2715,7 @@ const person1 = {
   postsQuantity: 100,
 };
 
-const person2 = {
+const person22 = {
   name: 'Alice',
   info: {
     country: 'Italy',
@@ -2723,10 +2723,203 @@ const person2 = {
   },
 };
 
-// Напишите функцию "shortPerson" здесь
+// Напишите функцию "shortPerson" здесь:
 
-console.log(shortPerson(person1));
-// { n: "Mike", c: "Spain", a: 23, p: 100 }
+function shortPerson(obj23) {
+  const {
+    name: n,
+    info: { country: c, age: a },
+    postsQuantity: p = 0,
+  } = obj23;
+  return { n, c, a, p };
+}
 
-console.log(shortPerson(person2));
-// { n: "Alice", c: "Italy", a: 25, p: 0 }
+//suggested solution:
+const shortPerson2 = ({
+  name: n,
+  info: { country: c, age: a },
+  postsQuantity: p = 0,
+}) => ({
+  n,
+  c,
+  a,
+  p,
+});
+
+console.log(shortPerson(person11)); // { n: "Mike", c: "Spain", a: 23, p: 100 }
+console.log(shortPerson(person22)); // { n: "Alice", c: "Italy", a: 25, p: 0 }
+
+/** ЗАДАЧА 75 - Перебор символов строки
+ *
+ * Подсчитайте количество строчных гласных букв в строке.
+ * Гласные буквы - a, e, i, o, u
+ */
+
+let vowelsCount = 0;
+const vowels = ['a', 'e', 'i', 'o', 'u'];
+
+const str = 'Today is the best day of my life';
+
+// Напишите код здесь:
+
+// v1:
+for (const char of str) {
+  if (vowels.includes(char)) {
+    vowelsCount++;
+  }
+}
+
+// v2:
+const getVowQty = (str) => [...str].filter((el) => vowels.includes(el)).length;
+
+//suggested solution:
+// str.split('').forEach((char) => {
+//   if (vowels.includes(char)) {
+//     vowelsCount += 1;
+//   }
+// });
+
+console.log(vowelsCount); // 9
+console.log(getVowQty(str)); //9
+
+/** ЗАДАЧА 76 - Поменять местами значения двух переменных
+ *
+ * Поменяйте местами значения переменных "a" и "b".
+ * Не используйте для этого какие-либо новые переменные.
+ */
+
+let aa = 'first';
+let ba = 'second';
+
+console.log(aa, ba); // first second
+
+// Напишите код здесь
+[aa, ba] = [ba, aa];
+
+console.log(aa, ba); // second first
+
+/** ЗАДАЧА 77 - Замыкания
+ *
+ * 1. Создайте функцию "createGreeting", внутри которой создайте:
+ *  - переменную "greetingString" с значением "Hey, this is"
+ *    (объявите ее используя "let")
+ *  - функцию "greet" с одним параметром, которая должна возвращать
+ *    строку-приветствие на основании "greetingString" и параметра,
+ *    например, "Hey, this is Bob"
+ *  - функцию "changeGreeting" с одним параметром, которая должна
+ *    изменять значение переменной "greetingString"
+ *
+ * 2. Функция "createGreeting" должа вернуть объект с двумя методами:
+ *  - greet
+ *  - changeGreeting
+ */
+
+function createGreeting() {
+  let greetingString = 'Hey, this is';
+
+  return {
+    greet(greetName) {
+      return `${greetingString} ${greetName}`;
+    },
+    changeGreeting(newGreetName) {
+      greetingString = newGreetName;
+    },
+  };
+}
+
+//suggested solution:
+function createGreeting2() {
+  let greetingString = 'Hey, this is';
+  function greet(greetName) {
+    return `${greetingString} ${greetName}`;
+  }
+  function changeGreeting(newGreetName) {
+    greetingString = newGreetName;
+  }
+  return {
+    greet,
+    changeGreeting,
+  };
+}
+
+const greeting1 = createGreeting();
+
+console.log(greeting1.greet('Bob')); // Hey, this is Bob
+
+greeting1.changeGreeting('Good Morning from');
+
+console.log(greeting1.greet('Emily')); // Good Morning from Emily
+
+/* ____________  */
+
+const greeting2 = createGreeting();
+
+console.log(greeting2.greet('Emily')); // Hey, this is Emily
+
+/** ЗАДАЧА 78 - Классы
+ *
+ * 1. Создайте класс "Fruit"
+ *
+ * 2. У каждого экземпляра этого класса должно быть
+ * два собственных свойства:
+ *  - title
+ *  - price
+ *
+ * 3. Также нужно добавить метод "priceInfo", который
+ * будет возвращать строку, содержащую название и цену фрукта
+ *
+ * 4. Выводы в консоли должны совпасть
+ */
+
+class Fruit {
+  constructor(title, price) {
+    this.title = title;
+    this.price = price;
+  }
+  priceInfo() {
+    return `Price of the ${this.title} is ${this.price}$`;
+  }
+}
+
+const apple = new Fruit('Apple', 2);
+console.log(apple.priceInfo());
+// Price of the Apple is 2$
+
+const orange = new Fruit('Orange', 3);
+console.log(orange.priceInfo());
+// Price of the Orange is 3$
+
+/** ЗАДАЧА 79 - Перебор свойств объекта
+ *
+ * 1. Создайте функцию "sumObjectValues", которая будет суммировaть
+ * все значения свойств, которые являются числами.
+ *
+ * 2. Сумму чисел необходимо вернуть из функции
+ *
+ * 3. Убедитесь, что итерация выполняется только
+ * по собственным свойствам объекта
+ */
+
+const objectWithNumbers1 = {
+  a: 10,
+  b: 20,
+  c: 'string',
+  d: 12,
+};
+
+// Создайте функцию здесь
+function sumObjectValues(obj) {
+  const arrNew = [];
+
+  for (const key in obj) {
+    if (Object.hasOwnProperty.call(obj, key)) {
+      if (typeof obj[key] === 'number') {
+        arrNew.push(obj[key]);
+      }
+    }
+  }
+  return arrNew.reduce((acc, cv) => acc + cv);
+}
+
+const result5 = sumObjectValues(objectWithNumbers1);
+console.log(result5); //42
