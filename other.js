@@ -2918,8 +2918,72 @@ function sumObjectValues(obj) {
       }
     }
   }
-  return arrNew.reduce((acc, cv) => acc + cv);
+  return arrNew.reduce((acc, cv) => acc + cv, 0);
+}
+
+//suggested solution:
+function sumObjectValues(nums) {
+  let sum = 0;
+
+  Object.keys(nums).forEach((key) => {
+    if (typeof nums[key] === 'number') {
+      sum += nums[key];
+    }
+  });
+
+  return sum;
 }
 
 const result5 = sumObjectValues(objectWithNumbers1);
 console.log(result5); //42
+
+/** ЗАДАЧА 80 - Сумма положительных и отрицательных чисел
+ *
+ * 1. Создайте функцию "sumPositiveNegative", которая принимает массив
+ * и суммирует отдельно положительные и отрицательные числа.
+ *
+ * 2. Функция должна вернуть такой объект:
+ *  {
+ *    positive: 74, // сумма всех положительных чисел
+ *    negative: -54 // сумма всех отрицательных чисел
+ *  }
+ */
+
+const nums = [10, -12, 30, -1, -8, 0, 14, -33, 20];
+
+// Создайте функцию "sumPositiveNegative" здесь
+function sumPositiveNegative(arr) {
+  const sumPositive = arr
+    .filter((el) => el >= 0)
+    .reduce((acc, cv) => acc + cv, 0);
+
+  const sumNegative = arr
+    .filter((el) => el < 0)
+    .reduce((acc, cv) => acc + cv, 0);
+  return { positive: sumPositive, negative: sumNegative };
+}
+
+//suggested solution:
+function sumPositiveNegative(arr) {
+  return arr.reduce(
+    (sums, num) => {
+      if (num > 0) {
+        return {
+          ...sums,
+          positive: sums.positive + num,
+        };
+      }
+
+      return {
+        ...sums,
+        negative: sums.negative + num,
+      };
+    },
+    { positive: 0, negative: 0 }
+  );
+}
+
+const result22 = sumPositiveNegative(nums);
+
+console.log(result22);
+// { positive: 74, negative: -54 }
