@@ -2878,3 +2878,138 @@ console.log(
   ])
 ); //3
 // ===============================================================================================================================================
+// 7 kyu
+// Number Pairs
+
+// In this kata the aim is to compare each pair of integers from two arrays, and return a new array of large numbers.
+// Note: Both arrays have the same dimensions.
+
+// Example:
+// let arr1 = [13, 64, 15, 17, 88];
+// let arr2 = ;
+// getLargerNumbers(arr1, arr2); // Returns [23, 64, 53, 17, 88]
+
+//var1
+const getLargerNumbers = (arr1, arr2) => {
+  const arrNew = [];
+  for (let i = 0; i < arr1.length; i++) {
+    arrNew.push(arr1[i] > arr2[i] ? arr1[i] : arr2[i]);
+  }
+  return arrNew;
+};
+
+// var2
+const getLargerNumbers2 = (arr1, arr2) => {
+  const arr = arr1.map((el, index) => {
+    if (el > arr2[index]) {
+      return el;
+    } else {
+      return arr2[index];
+    }
+  }, arr2);
+  return arr;
+};
+
+//best practice:
+const getLargerNumbers3 = (a, b) => a.map((v, i) => Math.max(v, b[i]));
+
+console.log(getLargerNumbers([13, 64, 15, 17, 88], [23, 14, 53, 17, 80])); //[ 23, 64, 53, 17, 88 ]
+console.log(getLargerNumbers2([13, 64, 15, 17, 88], [23, 14, 53, 17, 80])); //[ 23, 64, 53, 17, 88 ]
+console.log(getLargerNumbers3([13, 64, 15, 17, 88], [23, 14, 53, 17, 80])); //[ 23, 64, 53, 17, 88 ]
+
+// ===============================================================================================================================================
+// 6 kyu
+// Simple Fun #97: Video Part
+
+// You have been watching a video for some time.
+// Knowing the total video duration find out what portion of the video you have already watched.
+
+// Example
+// For part = "02:20:00" and total = "07:00:00", the output should be [1, 3].
+// You have watched 1 / 3 of the whole video.
+
+// Input/Output
+// [input] string part
+// A string of the following format "hh:mm:ss" representing the time you have been watching the video.
+
+// [input] string total
+// A string of the following format "hh:mm:ss" representing the total video duration.
+
+// [output] an integer array
+// An array of the following format [a, b] (where a / b is a reduced fraction).
+
+function videoPart(part, total) {
+  function getConvertedTime(str) {
+    const arr = str.split(':').map((el) => +el);
+    arr[0] *= 60 * 60;
+    arr[1] *= 60;
+    const seconds = arr.reduce((acc, currValue) => {
+      return acc + currValue;
+    }, 0);
+    return seconds;
+  }
+  let a = getConvertedTime(part);
+  let b = getConvertedTime(total);
+
+  function nod(aa, bb) {
+    while (aa !== 0 && bb !== 0) {
+      if (aa > bb) {
+        aa = aa % bb;
+      } else {
+        bb = bb % aa;
+      }
+    }
+    return aa + bb;
+  }
+  const nodResult = nod(a, b);
+  return [a / nodResult, b / nodResult];
+}
+
+//best practice:
+function videoPart(part, total) {
+  const n = ((t) => t[0] * 3600 + t[1] * 60 + t[2] * 1)(part.split(':'));
+  const d = ((t) => t[0] * 3600 + t[1] * 60 + t[2] * 1)(total.split(':'));
+  const gcd = (function g(a, b) {
+    return b ? g(b, a % b) : a;
+  })(n, d);
+  return [n / gcd, d / gcd];
+}
+
+console.log(videoPart('02:20:00', '07:00:00')); //[1, 3]
+console.log(videoPart('25:26:20', '25:26:20')); //[1, 1]
+console.log(videoPart('00:02:20', '00:10:00')); //[7, 30]
+
+// ===============================================================================================================================================
+// 6 kyu
+// Only Duplicates
+
+// Given a string, remove any characters that are unique from the string.
+
+// Example:
+// input: "abccdefee"
+// output: "cceee"
+
+function onlyDuplicates(str) {
+  const arrNew = [];
+
+  [...str].forEach((el) => {
+    const moreElements = [...str].filter((char) => char === el);
+    if (moreElements.length > 1) {
+      arrNew.push(el);
+    }
+  });
+
+  return arrNew.join('');
+}
+
+//best practice:
+function onlyDuplicates(str) {
+  return str
+    .split('')
+    .filter((e) => str.indexOf(e) != str.lastIndexOf(e))
+    .join('');
+}
+
+console.log(onlyDuplicates('abccdefee')); //'cceee'
+console.log(onlyDuplicates('hello')); //'ll'
+console.log(onlyDuplicates('foundersandcoders')); //'ondersndoders'
