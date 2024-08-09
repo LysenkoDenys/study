@@ -3013,3 +3013,228 @@ function onlyDuplicates(str) {
 console.log(onlyDuplicates('abccdefee')); //'cceee'
 console.log(onlyDuplicates('hello')); //'ll'
 console.log(onlyDuplicates('foundersandcoders')); //'ondersndoders'
+
+// ===============================================================================================================================================
+// 6 kyu
+//T.T.T.#6: nth user
+
+// Story
+// A product to do market research, n users to participate in the activities.
+// The researchers assigned each user a number.
+// The first user's number is 1, the second users numbered 2, and so on...
+
+// Strangely, there are no digits 4 and 9 in the user's numbers,
+// that is to say the number of 3rd users is 3, the number of 4th users is 5... the number of 8th users is 10... like this:
+
+// user   1st 2nd 3rd 4th 5th 6th 7th 8th 9th 10th ........ nth
+// number  1   2   3   5   6   7   8  10   11  12  ........ ??
+// Please calculate, what is the number of the nth user?
+
+// Rules
+// Write a function that takes an argument n (meaning the nth user), and returns the user's number in string format.
+
+// Examples
+// n =  1 : Your function should return "1"
+// n =  4 : Your function should return "5"
+// n =  8 : Your function should return "10"
+// n = 10 : Your function should return "12"
+// n = 20 : Your function should return "25"
+
+// function userNumber(n) {
+//   let arrNew = [];
+
+//   // ==========================
+//   let arrLength = n + n;
+//   // ==========================
+
+//   function getLength(arrLength) {
+//     for (let i = 0; i < arrLength; i++) {
+//       arrNew.push(i);
+//     }
+//   }
+//   getLength(arrLength);
+//   let result = arrNew.filter((el) => !el.toString().match(/[49]/g));
+
+//   // ==========================
+//   while (result.length <= n) {
+//     arrLength = arrLength + n;
+//     arrNew = [];
+//     getLength(arrLength);
+//     result = arrNew.filter((el) => !el.toString().match(/[49]/g));
+//   }
+//   // ==========================
+//   return result[n].toString();
+// }
+
+// best practice:
+function userNumber(n) {
+  let count = 0;
+  let number = 0;
+
+  while (count < n) {
+    number += 1;
+    if (!number.toString().match(/[49]/g)) {
+      count += 1;
+    }
+  }
+
+  return number.toString();
+}
+
+console.log(userNumber(1)); //"1"
+console.log(userNumber(4)); //"5"
+console.log(userNumber(8)); //"10"
+console.log(userNumber(10)); //"12"
+console.log(userNumber(20)); //"25"
+console.log(userNumber(500)); //"875"
+console.log(userNumber(1000)); //"1860"
+console.log(userNumber(100000)); // "303250"
+// console.log(userNumber(7385994)); //"35131712"
+// console.log(userNumber(2660289)); //"12113801"
+
+// ===============================================================================================================================================
+// 6 kyu
+//If you can read this...
+
+// Task
+// You'll have to translate a string to Pilot's alphabet (NATO phonetic alphabet).
+
+// Input:
+
+// If, you can read?
+
+// Output:
+
+// India Foxtrot , Yankee Oscar Uniform Charlie Alfa November Romeo Echo Alfa Delta ?
+
+// Note:
+
+// There is a preloaded dictionary that you can use, named NATO. It uses uppercase keys, e.g. NATO['A'] is "Alfa". See comments in the initial code to see how to access it in your language.
+// The set of used punctuation is ,.!?.
+// Punctuation should be kept in your return string, but spaces should not.
+// Xray should not have a dash within.
+// Every word and punctuation mark should be seperated by a space ' '.
+// There should be no trailing whitespace
+
+const NATO = {
+  A: 'Alfa',
+  B: 'Bravo',
+  C: 'Charlie',
+  D: 'Delta',
+  E: 'Echo',
+  F: 'Foxtrot',
+  G: 'Golf',
+  H: 'Hotel',
+  I: 'India',
+  J: 'Juliett',
+  K: 'Kilo',
+  L: 'Lima',
+  M: 'Mike',
+  N: 'November',
+  O: 'Oscar',
+  P: 'Papa',
+  Q: 'Quebec',
+  R: 'Romeo',
+  S: 'Sierra',
+  T: 'Tango',
+  U: 'Uniform',
+  V: 'Victor',
+  W: 'Whiskey',
+  X: 'X-ray',
+  Y: 'Yankee',
+  Z: 'Zulu',
+  0: 'Zero',
+  1: 'One',
+  2: 'Two',
+  3: 'Three',
+  4: 'Four',
+  5: 'Five',
+  6: 'Six',
+  7: 'Seven',
+  8: 'Eight',
+  9: 'Nine',
+};
+
+function toNato(words) {
+  return words
+    .toUpperCase()
+    .split('')
+    .map((char) => NATO[char] || char)
+    .filter(Boolean)
+    .join(' ')
+    .replace(/\s+/g, ' ');
+}
+
+// best practice:
+function to_nato(words) {
+  return words
+    .split('')
+    .filter((c) => c !== ' ')
+    .map((c) => NATO[c.toUpperCase()] || c)
+    .join(' ');
+}
+
+console.log(toNato('If you can read')); //"India Foxtrot Yankee Oscar Uniform Charlie Alfa November Romeo Echo Alfa Delta"
+console.log(toNato('Did not see that coming')); //"Delta India Delta November Oscar Tango Sierra Echo Echo Tango Hotel Alfa Tango Charlie Oscar Mike India November Golf"
+
+// ===============================================================================================================================================
+// 6 kyu
+// Lottery Ticket
+
+// Time to win the lottery!
+
+// Given a lottery ticket (ticket), represented by an array of 2-value arrays, you must find out if you've won the jackpot.
+
+// Example ticket:
+
+// [ [ 'ABC', 65 ], [ 'HGR', 74 ], [ 'BYHT', 74 ] ]
+// To do this, you must first count the 'mini-wins' on your ticket. Each subarray has both a string and a number within it. If the character code of any of the characters in the string matches the number, you get a mini win. Note you can only have one mini win per sub array.
+
+// Once you have counted all of your mini wins, compare that number to the other input provided (win). If your total is more than or equal to (win), return 'Winner!'. Else return 'Loser!'.
+
+// All inputs will be in the correct format. Strings on tickets are not always the same length.
+
+function bingo(ticket, win) {
+  return ticket
+    .map((el) =>
+      el[0]
+        .split('')
+        .map((el2) => el2.charCodeAt(0) === el[1])
+        .filter((item) => item === true)
+    )
+    .filter((item2) => item2[0] === true).length >= win
+    ? 'Winner!'
+    : 'Loser!';
+}
+
+// best practice:
+function bingo(ticket, win) {
+  if (
+    ticket.filter((a) => a[0].split('').some((b) => b.charCodeAt(0) == a[1]))
+      .length >= win
+  ) {
+    return 'Winner!';
+  }
+  return 'Loser!';
+}
+
+console.log(
+  bingo(
+    [
+      ['ABC', 65],
+      ['HGR', 74],
+      ['BYHT', 74],
+    ],
+    2
+  )
+); // 'Loser!'
+console.log(
+  bingo(
+    [
+      ['ABC', 65],
+      ['HGR', 74],
+      ['BYHT', 74],
+    ],
+    1
+  )
+); // 'Winner!'
