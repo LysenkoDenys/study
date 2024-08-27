@@ -3338,18 +3338,161 @@ console.log(goodVsEvil('1 0 0 0 0 0', '1 0 0 0 0 0 0')); //'Battle Result: No vi
 // "identifier"   =>  "identifier"
 // ""
 
-function solution(str) {
-  return [...str]
-    .map((el) =>
-      el.charCodeAt(0) >= 65 && el.charCodeAt(0) <= 90 ? ' ' + el : el
-    )
-    .join('');
-}
+// function solution(str) {
+//   return [...str]
+//     .map((el) =>
+//       el.charCodeAt(0) >= 65 && el.charCodeAt(0) <= 90 ? ' ' + el : el
+//     )
+//     .join('');
+// }
 
 // best practice:
-function solution(string) {
-  return string.replace(/([A-Z])/g, ' $1');
-}
+// function solution(string) {
+//   return string.replace(/([A-Z])/g, ' $1');
+// }
 
 console.log(solution('camelCasing')); //camel Casing
 console.log(solution('camelCasingTes')); //camel Casing Test
+
+// ===============================================================================================================================================
+// 6 kyu
+//Vector Affinity
+
+// Calculate the number of items in a vector that appear at the same index in each vector, with the same value.
+
+//   ([1 2 3 4 5], [1 2 2 4 3]) => 0.6
+//   ([1 2 3], [1 2 3]) => 1.0
+// Affinity value should be realized on a scale of 0.0 to 1.0, with 1.0 being absolutely identical. Two identical sets should always be evaluated as having an affinity of 1.0.
+
+// Hint: The last example test case holds a significant clue to calculating the affinity correctly.
+
+function vectorAffinity(xs, ys) {
+  const maxArrLength = Math.max(xs.length, ys.length);
+  const matchItemsQty = xs
+    .map((el, index) => el === ys[index])
+    .filter((el2) => el2 === true).length;
+  return matchItemsQty === maxArrLength ? 1 : matchItemsQty / maxArrLength;
+}
+
+// best practice:
+function vectorAffinity(xs, ys) {
+  let y = Math.max(xs.length, ys.length);
+  return y ? xs.filter((x, i) => x === ys[i]).length / y : 1;
+}
+
+console.log(vectorAffinity([1, 2, 3, 4, 5], [1, 2, 2, 4, 3])); // 3/5
+console.log(vectorAffinity([], [])); // 1
+
+// ===============================================================================================================================================
+// 6 kyu
+//Your order, please
+
+// Your task is to sort a given string. Each word in the string will contain a single number. This number is the position the word should have in the result.
+
+// Note: Numbers can be from 1 to 9. So 1 will be the first word (not 0).
+
+// If the input string is empty, return an empty string. The words in the input String will only contain valid consecutive numbers.
+
+// Examples
+// "is2 Thi1s T4est 3a"  -->  "Thi1s is2 3a T4est"
+// "4of Fo1r pe6ople g3ood th5e the2"  -->  "Fo1r the2 g3ood 4of th5e pe6ople"
+// ""  -->  ""
+
+function order(words) {
+  if (words === '') return '';
+  return words
+    .split(' ')
+    .map((el) => el.match(/\d/g) + el)
+    .sort()
+    .map((el2) => el2.replace(/^\d/g, ''))
+    .join(' ');
+}
+
+// best practice:
+function order(words) {
+  return words
+    .split(' ')
+    .sort(function (a, b) {
+      return a.match(/\d/) - b.match(/\d/);
+    })
+    .join(' ');
+}
+
+console.log(order('is2 Thi1s T4est 3a')); // "Thi1s is2 3a T4est"
+
+// ===============================================================================================================================================
+// 6 kyu
+//WeIrD StRiNg CaSe
+
+// Write a function that accepts a string, and returns the same string with all even indexed characters in each word upper cased,
+// and all odd indexed characters in each word lower cased. The indexing just explained is zero based,
+// so the zero-ith index is even, therefore that character should be upper cased and you need to start over for each word.
+
+// The passed in string will only consist of alphabetical characters and spaces(' '). Spaces will only be present if there are multiple words.
+// Words will be separated by a single space(' ').
+
+// Examples:
+// "String" => "StRiNg"
+// "Weird string case" => "WeIrD StRiNg CaSe"
+
+function toWeirdCase(string) {
+  return string
+    .split(' ')
+    .map((el) =>
+      el
+        .split('')
+        .map((el2, index) =>
+          index % 2 === 0 ? el2.toUpperCase() : el2.toLowerCase()
+        )
+        .join('')
+    )
+    .join(' ');
+}
+
+console.log(toWeirdCase('This is a test')); //'ThIs Is A TeSt'
+// ===============================================================================================================================================
+// 5 kyu
+//Find the unique string
+
+// There is an array of strings. All strings contains similar letters except one. Try to find it!
+
+// findUniq([ 'Aa', 'aaa', 'aaaaa', 'BbBb', 'Aaaa', 'AaAaAa', 'a' ]) === 'BbBb'
+// findUniq([ 'abc', 'acb', 'bac', 'foo', 'bca', 'cab', 'cba' ]) === 'foo'
+// Strings may contain spaces. Spaces are not significant, only non-spaces symbols matters. E.g. string that contains only spaces is like empty string.
+
+// It’s guaranteed that array contains more than 2 strings.
+
+function findUniq(arr) {
+  arr = arr.map((el) => el.replace(/' '/g, ''));
+  console.log(arr); //
+  const arrNew = [];
+  for (let i = 0; i < arr.length; i++) {
+    for (let j = 0; j < arr[i].length; j++) {
+      for (let k = 0; k < arr.length; k++) {
+        const a = arr[k].includes(arr[i][j]);
+        if (a === false) {
+          arrNew.push(arr[k]); //
+        }
+      }
+    }
+  }
+  function mode(arrNew) {
+    return arrNew.sort(
+      (a, b) =>
+        arrNew.filter((v) => v === a).length -
+        arrNew.filter((v) => v === b).length
+    );
+  }
+  mode(arrNew);
+  return arrNew.pop();
+}
+
+// console.log(findUniq(['Aa', 'aaa', 'aaaaa', 'BbBb', 'Aaaa', 'AaAaAa', 'a'])); //'BbBb'
+// console.log(findUniq(['abc', 'acb', 'bac', 'foo', 'bca', 'cab', 'cba'])); //'foo'
+// console.log(findUniq(['a', 'b', 'b', 'b'])); //'a'
+// console.log(findUniq(['', '', '', 'a', '', ''])); //'a'
+// console.log(findUniq(['    ', 'a', ' '])); //'a'
+
+// 1) get an element[0] from array[0];
+// 2) compare the element every array in the array;
+// 3) find array with false;
